@@ -120,7 +120,7 @@ export default function ScheduleEditor({
             placeholder="Cari pemain / pool / kategori..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full md:w-72 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-yellow-400"
+            className="w-full md:w-72 px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary"
           />
           <span className="text-sm text-slate-500 whitespace-nowrap">
             {filtered.length} match · {filledCount} terisi
@@ -130,7 +130,7 @@ export default function ScheduleEditor({
           type="button"
           onClick={handleSave}
           disabled={isSaving}
-          className="w-full md:w-auto px-6 py-2.5 bg-yellow-400 hover:bg-yellow-500 disabled:bg-slate-300 text-[#0F172A] font-bold rounded-xl transition-all active:scale-95"
+          className="w-full md:w-auto px-6 py-2.5 bg-primary hover:bg-primary-hover disabled:bg-slate-300 text-[#ffffff] font-bold rounded-xl transition-all active:scale-95"
         >
           {isSaving ? "Menyimpan..." : "💾 Simpan Semua"}
         </button>
@@ -163,20 +163,20 @@ export default function ScheduleEditor({
                   const key = `${m.type}-${m.id}`;
                   const entry = entries[key];
                   return (
-                    <tr key={key} className="hover:bg-blue-50/40 transition-colors">
+                    <tr key={key} className="hover:bg-primary-50/40 transition-colors">
                       <td className="py-3.5 px-5">
-                        <span className="inline-flex px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-full text-[11px] font-extrabold uppercase whitespace-nowrap">
+                        <span className="inline-flex px-2.5 py-1 bg-primary-50 text-primary-700 rounded-full text-[11px] font-extrabold uppercase whitespace-nowrap">
                           {m.groupName}
                         </span>
                         <p className="text-[11px] text-slate-400 mt-1">{m.category}</p>
                       </td>
                       <td className="py-3.5 px-5">
                         <p className="font-semibold text-slate-800 whitespace-nowrap">
-                          {m.player1Name || "TBD"}
+                          {m.player1Name || "Menunggu"}
                         </p>
                         <p className="text-slate-400 text-[11px]">vs</p>
                         <p className="font-semibold text-slate-800 whitespace-nowrap">
-                          {m.player2Name || "TBD"}
+                          {m.player2Name || "Menunggu"}
                         </p>
                       </td>
                       <td className="py-3.5 px-5">
@@ -185,7 +185,7 @@ export default function ScheduleEditor({
                           value={entry?.court ?? ""}
                           onChange={(e) => setEntry(key, "court", e.target.value)}
                           placeholder="mis. 1"
-                          className="w-24 px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                          className="w-24 px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                       </td>
                       <td className="py-3.5 px-5">
@@ -193,7 +193,7 @@ export default function ScheduleEditor({
                           type="datetime-local"
                           value={entry?.startTime ?? ""}
                           onChange={(e) => setEntry(key, "startTime", e.target.value)}
-                          className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                          className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                       </td>
                       <td className="py-3.5 px-5 text-center">

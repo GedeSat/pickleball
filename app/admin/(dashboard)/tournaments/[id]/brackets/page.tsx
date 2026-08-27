@@ -1,8 +1,6 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import BracketClient from "./BracketClient";
-
-const prisma = new PrismaClient();
 
 export default async function BracketPage({
   params,

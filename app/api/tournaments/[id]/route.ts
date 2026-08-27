@@ -1,10 +1,8 @@
 // /api/tournaments/[id]/route.ts
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { unlink } from "fs/promises";
 import path from "path";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
-
-const prisma = new PrismaClient();
 
 export async function GET(
   req: Request,

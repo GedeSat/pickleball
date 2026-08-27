@@ -46,14 +46,14 @@ export default function KnockoutBracketRender({ matches, onUpdateScore, onResetM
           resultText: m.score1 !== null ? String(m.score1) : null,
           isWinner: (m.status === "DONE" && m.winnerName === m.player1Name) ? ("true" as any) : undefined,
           status: null,
-          name: displayParticipantName(m.player1Name) || "TBD",
+          name: displayParticipantName(m.player1Name),
         },
         {
           id: `p2-${m.id}`,
           resultText: m.score2 !== null ? String(m.score2) : null,
           isWinner: (m.status === "DONE" && m.winnerName === m.player2Name) ? ("true" as any) : undefined,
           status: null,
-          name: displayParticipantName(m.player2Name) || "TBD",
+          name: displayParticipantName(m.player2Name),
         },
       ],
     };
@@ -82,18 +82,18 @@ export default function KnockoutBracketRender({ matches, onUpdateScore, onResetM
        return;
     }
     
-    // Boleh isi skor kalau kedua pemain sudah jelas (bukan TBD/null/slot token)
+    // Boleh isi skor kalau kedua pemain sudah jelas (bukan Menunggu/null/slot token)
     const p1Unset = !match.originalMatch.player1Name || slotTokenToLabel(match.originalMatch.player1Name) !== null;
     const p2Unset = !match.originalMatch.player2Name || slotTokenToLabel(match.originalMatch.player2Name) !== null;
     if (p1Unset || p2Unset) {
-        showWarning("Kedua pemain belum ditentukan. Selesaikan fase grup agar peringkat pool mengisi slot ini.");
+        showWarning("Peserta belum lengkap. Nama akan terisi otomatis setelah fase grup selesai.");
         return;
     }
 
     // Jika salah satu BYE, ini anomali (karena sistem otomatis mengisi kemenangan bye), 
     // tapi kalau terjadi, cegah edit skor
     if (match.originalMatch.player1Name === "BYE" || match.originalMatch.player2Name === "BYE") {
-        showInfo("Match ini mendapatkan BYE.", "Info Match");
+        showInfo("Peserta ini mendapat BYE (langsung lolos).", "Info Pertandingan");
         return;
     }
 
@@ -104,7 +104,7 @@ export default function KnockoutBracketRender({ matches, onUpdateScore, onResetM
 
 const handleEditName = (matchId: number, pNum: 1|2, name: string) => {
     if (onEditName) {
-        onEditName(matchId, pNum, name === "TBD" ? "" : name);
+        onEditName(matchId, pNum, name === "Menunggu" ? "" : name);
     }
 };
 
@@ -143,7 +143,7 @@ const handleEditName = (matchId: number, pNum: 1|2, name: string) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl mx-4">
             <h3 className="text-lg font-bold text-slate-900 mb-6 text-center">
-              Skor Knockout
+              Input Skor Pertandingan
             </h3>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="flex-1 text-center">
@@ -155,7 +155,7 @@ const handleEditName = (matchId: number, pNum: 1|2, name: string) => {
                   min="0"
                   value={tempScore1}
                   onChange={(e) => setTempScore1(e.target.value)}
-                  className="w-20 h-16 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 block mx-auto"
+                  className="w-20 h-16 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary block mx-auto"
                 />
               </div>
               <span className="text-2xl font-bold text-slate-300 mt-6">VS</span>
@@ -168,7 +168,7 @@ const handleEditName = (matchId: number, pNum: 1|2, name: string) => {
                   min="0"
                   value={tempScore2}
                   onChange={(e) => setTempScore2(e.target.value)}
-                  className="w-20 h-16 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 block mx-auto"
+                  className="w-20 h-16 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary block mx-auto"
                 />
               </div>
             </div>
@@ -185,13 +185,13 @@ const handleEditName = (matchId: number, pNum: 1|2, name: string) => {
                    setActiveMatch(null);
                 }}
                 disabled={tempScore1 === "" || tempScore2 === "" || tempScore1 === tempScore2}
-                className="flex-1 px-4 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 disabled:opacity-40 transition-all shadow-sm"
+                className="flex-1 px-4 py-3 bg-primary text-[#ffffff] rounded-xl font-semibold hover:bg-primary-hover disabled:opacity-40 transition-all shadow-sm"
               >
                 Simpan
               </button>
             </div>
             {tempScore1 !== "" && tempScore2 !== "" && tempScore1 === tempScore2 && (
-               <p className="text-red-500 text-xs text-center mt-3">Tidak boleh seri dalam fase gugur.</p>
+               <p className="text-red-500 text-xs text-center mt-3">Skor tidak boleh seri di babak gugur.</p>
             )}
           </div>
         </div>

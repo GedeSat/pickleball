@@ -41,3 +41,12 @@ yarn-error.log*
 next-env.d.ts
 
 /app/generated/prisma
+
+# ui-ux-pro-max skill (vendored copy, not part of the app)
+/ui-ux-pro-max-skill/
+
+# runtime uploads & local artifacts (jangan di-commit)
+/public/uploads/
+/prisma/generated/
+/backup_pickleball.sql
+dev.log*

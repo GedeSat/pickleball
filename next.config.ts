@@ -1,11 +1,19 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  // Baris ajaib untuk menyelamatkan Prisma dari Turbopack
-  serverExternalPackages: ["@prisma/client", "bcryptjs"], 
+const nextConfig = {
   experimental: {
-    serverActions: { bodySizeLimit: "10mb" } // Tambahkan batas ukuran body untuk aksi server (misal untuk upload gambar)
-  }
-};
+    cacheComponents: true, // wajib untuk pakai 'use cache' directive
+    cacheLife: {
+      matches: {
+        stale: 10,      // client boleh pakai cache stale sampai 10 detik
+        revalidate: 10, // server refresh tiap 10 detik
+        expire: 60,     // maksimal umur cache 60 detik
+      },
+      reference: {
+        stale: 300,
+        revalidate: 300,
+        expire: 3600,
+      },
+    },
+  },
+}
 
-export default nextConfig;
+export default nextConfig

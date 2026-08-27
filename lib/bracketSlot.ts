@@ -40,16 +40,18 @@ export function isSlotToken(name: string | null | undefined): boolean {
   return parseSlotToken(name) !== null;
 }
 
-/** Label ramah pengguna: "@@A:1@@" → "Peringkat 1 • Pool A" */
+/** Label ramah pengguna: "@@A:1@@" → "Juara Pool A" */
 export function slotTokenToLabel(name: string | null | undefined): string | null {
   const t = parseSlotToken(name);
   if (!t) return null;
+  if (t.rank === 1) return `Juara Pool ${t.poolCode}`;
+  if (t.rank === 2) return `Runner-up Pool ${t.poolCode}`;
   return `Peringkat ${t.rank} • Pool ${t.poolCode}`;
 }
 
-/** Nama tampilan aman untuk bagan: label token / nama asli / TBD */
+/** Nama tampilan aman untuk bagan: label token / nama asli / Menunggu */
 export function displayParticipantName(
   name: string | null | undefined
 ): string {
-  return slotTokenToLabel(name) ?? name ?? 'TBD';
+  return slotTokenToLabel(name) ?? name ?? 'Menunggu';
 }

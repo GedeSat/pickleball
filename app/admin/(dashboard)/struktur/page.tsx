@@ -172,7 +172,7 @@ export default function StrukturAdminPage() {
         <h1 className="text-2xl font-bold text-slate-800">Struktur Organisasi</h1>
         <button
           onClick={() => openAddModal()}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors shadow-sm"
+          className="bg-primary text-[#ffffff] px-4 py-2 rounded-lg font-medium hover:bg-primary-hover transition-colors shadow-sm"
         >
           + Tambah Ketua Umum / Root
         </button>
@@ -208,7 +208,7 @@ export default function StrukturAdminPage() {
                   required
                   value={form.name}
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none text-slate-900"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary outline-none text-slate-900"
                 />
               </div>
               <div>
@@ -217,7 +217,7 @@ export default function StrukturAdminPage() {
                   required
                   value={form.position}
                   onChange={(e) => setForm({ ...form, position: e.target.value })}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none text-slate-900"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary outline-none text-slate-900"
                   placeholder="Ketua Umum, Bendahara, dll"
                 />
               </div>
@@ -241,9 +241,9 @@ export default function StrukturAdminPage() {
                       type="file"
                       accept="image/*"
                       onChange={handleImageUpload}
-                      className="w-full text-xs text-slate-600 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-colors"
+                      className="w-full text-xs text-slate-600 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-primary-50 file:text-primary-800 hover:file:bg-primary-100 transition-colors"
                     />
-                    {uploading && <span className="text-[10px] text-blue-600 block mt-1">Mengunggah...</span>}
+                    {uploading && <span className="text-[10px] text-primary-700 block mt-1">Mengunggah...</span>}
                   </div>
                 </div>
               </div>
@@ -253,7 +253,7 @@ export default function StrukturAdminPage() {
                 <select
                   value={form.parentId}
                   onChange={(e) => setForm({ ...form, parentId: e.target.value })}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-blue-500 outline-none text-slate-900"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 bg-white focus:ring-2 focus:ring-primary outline-none text-slate-900"
                 >
                   <option value="">— Tidak ada (Root / Ketua Umum) —</option>
                   {items
@@ -271,7 +271,7 @@ export default function StrukturAdminPage() {
                   type="number"
                   value={form.order}
                   onChange={(e) => setForm({ ...form, order: Number(e.target.value) })}
-                  className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none text-slate-900"
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-primary outline-none text-slate-900"
                 />
               </div>
               <div className="flex justify-end gap-2 pt-2">
@@ -285,7 +285,7 @@ export default function StrukturAdminPage() {
                 <button
                   type="submit"
                   disabled={uploading}
-                  className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors disabled:bg-blue-400 disabled:cursor-not-allowed"
+                  className="px-4 py-2 rounded-lg bg-primary text-[#ffffff] hover:bg-primary-hover transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
                 >
                   Simpan
                 </button>
@@ -313,14 +313,14 @@ function OrgTree({
     <div className="flex gap-8">
       {nodes.map((node) => (
         <div key={node.id} className="flex flex-col items-center">
-          <div className="bg-white border-2 border-blue-600 rounded-xl px-4 py-3 shadow-md min-w-[200px] text-center transition-all hover:shadow-lg">
+          <div className="bg-white border-2 border-primary rounded-xl px-4 py-3 shadow-md min-w-[200px] text-center transition-all hover:shadow-lg">
             
             {/* Foto profil */}
             {node.photoUrl ? (
               <img
                 src={node.photoUrl}
                 alt={node.name}
-                className="w-16 h-16 rounded-full mx-auto object-cover mb-2 border-2 border-blue-100 shadow-sm"
+                className="w-16 h-16 rounded-full mx-auto object-cover mb-2 border-2 border-primary-100 shadow-sm"
               />
             ) : (
               <div className="w-16 h-16 rounded-full mx-auto bg-slate-100 flex items-center justify-center mb-2 border border-slate-200 shadow-sm">
@@ -329,7 +329,7 @@ function OrgTree({
             )}
 
             <p className="font-bold text-slate-900 leading-tight">{node.name}</p>
-            <p className="text-xs text-blue-600 font-semibold mt-0.5">{node.position}</p>
+            <p className="text-xs text-primary-700 font-semibold mt-0.5">{node.position}</p>
             
             <div className="flex justify-center gap-3 mt-3 border-t border-slate-150 pt-2 text-xs">
               <button
@@ -340,13 +340,13 @@ function OrgTree({
               </button>
               <button
                 onClick={() => onEdit(node)}
-                className="text-blue-600 hover:text-blue-700 font-bold"
+                className="text-primary-700 hover:text-primary-800 font-bold"
               >
                 Edit
               </button>
               <button
                 onClick={() => onDelete(node.id)}
-                className="text-rose-600 hover:text-rose-700 font-bold"
+                className="text-red-500 hover:text-red-700 font-bold"
               >
                 Hapus
               </button>

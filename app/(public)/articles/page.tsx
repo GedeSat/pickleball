@@ -15,22 +15,22 @@ export default async function PublicArticlesPage() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
       <div className="mb-10 text-center">
-        <h1 className="text-4xl font-bold text-slate-900 mb-4">Berita & Artikel</h1>
-        <p className="text-slate-600">Info terbaru seputar Pickleball dan turnamen.</p>
+        <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-4">Berita & Artikel</h1>
+        <p className="text-slate-600 dark:text-slate-300">Info terbaru seputar Pickleball dan turnamen.</p>
       </div>
 
       {posts.length === 0 ? (
-        <div className="text-center py-20 text-slate-500 bg-slate-50 rounded-2xl">
+        <div className="text-center py-20 text-slate-500 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 rounded-2xl">
           Belum ada artikel yang diterbitkan.
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => (
             <Link key={post.id} href={`/articles/${post.id}`} className="group block h-full">
-              <div className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col h-full">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition flex flex-col h-full">
                 
                 {/* Gambar Artikel */}
-                <div className="h-48 bg-slate-100 relative overflow-hidden">
+                <div className="h-48 bg-slate-100 dark:bg-slate-700 relative overflow-hidden">
                   {post.image ? (
                     <img 
                       src={post.image} 
@@ -46,22 +46,22 @@ export default async function PublicArticlesPage() {
 
                 {/* Info Artikel */}
                 <div className="p-6 flex flex-col flex-1">
-                  <div className="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                  <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 mb-3">
                     <span>{new Date(post.createdAt).toLocaleDateString("id-ID", { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                     <span>•</span>
                     <span>Oleh {post.author?.name || "Admin"}</span>
                   </div>
                   
-                  <h2 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition">
+                  <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-primary-700 dark:group-hover:text-primary-300 transition">
                     {post.title}
                   </h2>
                   
                   {/* Potong isi konten agar tidak terlalu panjang di preview */}
-                  <p className="text-slate-600 text-sm line-clamp-3 mb-4 flex-1">
+                  <p className="text-slate-600 dark:text-slate-300 text-sm line-clamp-3 mb-4 flex-1">
                     {post.content}
                   </p>
                   
-                  <span className="text-blue-600 text-sm font-semibold mt-auto">Baca selengkapnya →</span>
+                  <span className="text-primary-700 dark:text-primary-300 text-sm font-semibold mt-auto">Baca selengkapnya →</span>
                 </div>
               </div>
             </Link>

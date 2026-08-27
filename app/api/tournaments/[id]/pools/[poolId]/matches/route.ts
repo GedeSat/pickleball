@@ -5,15 +5,13 @@
  * ============================================================
  */
 
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
 import {
   generatePoolMatches,
   recalculatePoolStandings,
 } from "@/lib/tournamentCategory";
 import { fillBracketFromPools } from "@/lib/bracketTemplate";
-
-const prisma = new PrismaClient();
 
 // ----------------------------------------------------------------
 // GET: List semua match dalam pool

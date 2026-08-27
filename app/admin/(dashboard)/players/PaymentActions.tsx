@@ -51,7 +51,7 @@ export default function PaymentActions({ type, id, status }: { type: 'player' | 
       <button
         type="button"
         onClick={handleReset}
-        className="px-3 py-1.5 bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white hover:shadow-lg hover:shadow-amber-500/30 font-semibold rounded-lg text-xs transition-all active:scale-95 whitespace-nowrap"
+        className="px-3 py-1.5 bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-[#ffffff] hover:shadow-lg hover:shadow-amber-500/30 font-semibold rounded-lg text-xs transition-all active:scale-95 whitespace-nowrap"
       >
         ↺ Batal
       </button>
@@ -62,7 +62,7 @@ export default function PaymentActions({ type, id, status }: { type: 'player' | 
     <button
       type="button"
       onClick={handleConfirm}
-      className="px-3 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white hover:shadow-lg hover:shadow-emerald-500/30 font-semibold rounded-lg text-xs transition-all active:scale-95 whitespace-nowrap"
+      className="px-3 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-[#ffffff] hover:shadow-lg hover:shadow-emerald-500/30 font-semibold rounded-lg text-xs transition-all active:scale-95 whitespace-nowrap"
     >
       ✓ Konfirmasi
     </button>

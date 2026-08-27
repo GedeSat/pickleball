@@ -4,7 +4,6 @@ import TournamentClient from './TournamentClient'; // Import komponen yang baru 
 
 const prisma = new PrismaClient();
 
-export const revalidate = 0; // Memastikan data selalu fresh, tidak di-cache lama oleh Next.js
 
 export default async function TournamentPage() {
   // 1. Ambil data turnamen dari MySQL (Urutkan dari yang terbaru)

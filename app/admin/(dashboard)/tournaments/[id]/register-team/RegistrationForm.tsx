@@ -92,7 +92,7 @@ export default function RegistrationForm({ tournamentId, players, grades }: Regi
                   setPlayer2Id('')
                 }
               }}
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none font-medium text-slate-700"
+              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none font-medium text-slate-700"
             >
               <option value="SINGLE">Single</option>
               <option value="DOUBLE">Double (Ganda)</option>
@@ -108,7 +108,7 @@ export default function RegistrationForm({ tournamentId, players, grades }: Regi
               name="grade"
               value={grade}
               onChange={(e) => setGrade(e.target.value)}
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none font-medium text-slate-700"
+              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none font-medium text-slate-700"
             >
               {grades.map((g) => (
                 <option key={g} value={g}>{gradeToLabel(g)}</option>
@@ -155,7 +155,7 @@ export default function RegistrationForm({ tournamentId, players, grades }: Regi
                type="text" 
                name="teamName" 
                placeholder="Contoh: Smash Squad (Otomatis jika dikosongkan)"
-               className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none font-medium text-slate-700"
+               className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none font-medium text-slate-700"
              />
              <p className="text-xs text-slate-500 mt-2">Apabila kosong, sistem akan menghasilkan &ldquo;[Nama P1] &amp; [Nama P2]&rdquo;.</p>
            </div>
@@ -173,7 +173,7 @@ export default function RegistrationForm({ tournamentId, players, grades }: Regi
           <button
             type="submit"
             disabled={!!validationError || isPending}
-            className="w-full flex items-center justify-center gap-2 bg-gradient-to-br from-[#4F46E5] to-[#2563EB] text-white font-bold text-lg p-4 rounded-2xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-blue-500/30"
+            className="w-full flex items-center justify-center gap-2 bg-gradient-to-br from-primary to-amber-500 text-[#ffffff] font-bold text-lg p-4 rounded-2xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-primary-800/30"
           >
             {isPending ? (
               <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>

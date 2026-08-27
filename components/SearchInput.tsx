@@ -24,8 +24,8 @@ export default function SearchInput({
         placeholder={placeholder}
         className={
           variant === "dark"
-            ? "w-full pl-9 pr-3 py-2.5 bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.15)] rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-yellow-400/60"
-            : "w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            ? "w-full pl-9 pr-3 py-2.5 bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.15)] rounded-xl text-sm text-[#ffffff] placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/60"
+            : "w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-primary"
         }
       />
       <span
@@ -38,7 +38,7 @@ export default function SearchInput({
       {resultCount !== undefined && value.trim() !== "" && (
         <button
           onClick={() => onChange("")}
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-bold text-indigo-600 hover:underline bg-white/80 px-1.5 py-0.5 rounded-md"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-bold text-primary-700 hover:underline bg-white/80 px-1.5 py-0.5 rounded-md"
         >
           Reset ({resultCount} peserta ditemukan)
         </button>

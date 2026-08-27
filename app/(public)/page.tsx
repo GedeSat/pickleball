@@ -25,7 +25,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       
       {/* --- HERO SECTION (SLIDER KOMPONEN) --- */}
       <BannerSlider />
@@ -34,18 +34,18 @@ export default async function HomePage() {
       <section className="max-w-6xl mx-auto px-6 pt-16 pb-8">
         <div className="mb-10 flex justify-between items-end">
           <div>
-            <h2 className="text-3xl font-bold text-slate-900">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
               Turnamen Mendatang & Berlangsung
             </h2>
-            <div className="h-1 w-20 bg-yellow-400 mt-3 rounded-full"></div>
+            <div className="h-1 w-20 bg-primary mt-3 rounded-full"></div>
           </div>
-          <Link href="/tournament" className="hidden sm:block text-yellow-600 font-bold hover:text-yellow-700">
+          <Link href="/tournament" className="hidden sm:block text-primary-700 font-bold hover:text-primary-800 dark:text-primary-300 dark:hover:text-primary-200">
             Lihat Semua Turnamen &rarr;
           </Link>
         </div>
 
         {activeTournaments.length === 0 ? (
-          <div className="bg-white rounded-2xl p-8 text-center text-slate-500 border border-slate-200">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-8 text-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
             Belum ada turnamen aktif saat ini.
           </div>
         ) : (
@@ -54,9 +54,9 @@ export default async function HomePage() {
               <Link
                 key={t.id}
                 href={`/tournament/${t.id}`}
-                className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col"
+                className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col"
               >
-                <div className="h-44 w-full relative bg-[#1E293B]">
+                <div className="h-44 w-full relative bg-brand-2">
                   {t.image ? (
                     <img
                       src={t.image}
@@ -68,26 +68,26 @@ export default async function HomePage() {
                       {t.name}
                     </div>
                   )}
-                  <span className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider text-white ${
-                    t.status === "ONGOING" ? "bg-emerald-500" : "bg-blue-600"
+                  <span className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider text-[#ffffff] ${
+                    t.status === "ONGOING" ? "bg-emerald-500" : "bg-primary"
                   }`}>
                     {t.status === "ONGOING" ? "Sedang Main 🎾" : "Buka Pendaftaran 📝"}
                   </span>
                 </div>
 
                 <div className="p-6 flex flex-col flex-grow">
-                  <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-yellow-600 transition-colors line-clamp-1">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2 group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors line-clamp-1">
                     {t.name}
                   </h3>
-                  <p className="text-sm text-slate-500 mb-4 flex items-center gap-1">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 flex items-center gap-1">
                     <span>📍</span> {t.location}
                   </p>
 
-                  <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+                  <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-600 dark:text-slate-300">
                     <span className="font-medium">
                       Biaya: {t.registrationFee === 0 ? "Gratis" : `Rp ${t.registrationFee.toLocaleString("id-ID")}`}
                     </span>
-                    <span className="font-bold text-yellow-600 group-hover:translate-x-1 transition-transform">
+                    <span className="font-bold text-primary-700 dark:text-primary-300 group-hover:translate-x-1 transition-transform">
                       Detail Turnamen &rarr;
                     </span>
                   </div>
@@ -102,18 +102,18 @@ export default async function HomePage() {
       <section id="artikel" className="max-w-6xl mx-auto px-6 py-20">
         <div className="mb-12 flex justify-between items-end">
           <div>
-            <h2 className="text-3xl font-bold text-slate-900">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-slate-100">
               Berita & Artikel Terbaru
             </h2>
-            <div className="h-1 w-20 bg-yellow-400 mt-3 rounded-full"></div>
+            <div className="h-1 w-20 bg-primary mt-3 rounded-full"></div>
           </div>
-          <Link href="/articles" className="hidden sm:block text-yellow-600 font-bold hover:text-yellow-700">
+          <Link href="/articles" className="hidden sm:block text-primary-700 font-bold hover:text-primary-800 dark:text-primary-300 dark:hover:text-primary-200">
             Lihat Semua Artikel &rarr;
           </Link>
         </div>
 
         {latestArticles.length === 0 ? (
-          <div className="text-center py-10 text-slate-500">
+          <div className="text-center py-10 text-slate-500 dark:text-slate-400">
             Belum ada artikel terbaru.
           </div>
         ) : (
@@ -123,10 +123,10 @@ export default async function HomePage() {
               <Link
                 key={article.id}
                 href={`/articles/${article.id}`}
-                className="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col cursor-pointer"
+                className="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col cursor-pointer"
               >
                 {/* KOTAK GAMBAR */}
-                <div className="h-48 w-full relative overflow-hidden bg-slate-100">
+                <div className="h-48 w-full relative overflow-hidden bg-slate-100 dark:bg-slate-700">
                   {article.image ? (
                     <img
                       src={article.image}
@@ -143,19 +143,19 @@ export default async function HomePage() {
 
                 {/* ISI TEKS ARTIKEL */}
                 <div className="p-6 flex flex-col flex-grow">
-                  <span className="text-xs font-bold text-yellow-600 uppercase tracking-wider mb-2">
+                  <span className="text-xs font-bold text-primary-700 dark:text-primary-300 uppercase tracking-wider mb-2">
                     Berita
                   </span>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-yellow-600 transition-colors line-clamp-2">
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-3 group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors line-clamp-2">
                     {article.title}
                   </h3>
                   
                   {/* line-clamp-3 akan memotong teks konten agar tidak terlalu panjang */}
-                  <p className="text-slate-600 text-sm mb-6 line-clamp-3">
+                  <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 line-clamp-3">
                     {article.content}
                   </p>
                   
-                  <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                  <div className="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                     <span className="font-medium">
                       {new Date(article.createdAt).toLocaleDateString("id-ID", {
                         day: "numeric",
@@ -163,7 +163,7 @@ export default async function HomePage() {
                         year: "numeric",
                       })}
                     </span>
-                    <span className="font-bold text-slate-900 group-hover:text-yellow-600 transition-colors">
+                    <span className="font-bold text-slate-900 dark:text-slate-100 group-hover:text-primary-700 dark:group-hover:text-primary-300 transition-colors">
                       Baca Selengkapnya &rarr;
                     </span>
                   </div>
@@ -175,7 +175,7 @@ export default async function HomePage() {
         
         {/* Tombol Lihat Semua untuk versi HP */}
         <div className="mt-10 text-center sm:hidden">
-           <Link href="/articles" className="inline-block px-6 py-3 bg-slate-900 text-white font-semibold rounded-lg">
+           <Link href="/articles" className="inline-block px-6 py-3 bg-slate-900 dark:bg-primary text-[#ffffff] font-semibold rounded-lg">
              Lihat Semua Artikel
            </Link>
         </div>

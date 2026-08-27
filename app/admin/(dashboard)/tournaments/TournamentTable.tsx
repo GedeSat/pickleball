@@ -24,11 +24,11 @@ const STATUS_OPTIONS = [
 ];
 
 const STATUS_BADGE: Record<string, string> = {
-  DRAFT: "bg-slate-100 text-slate-600",
-  UPCOMING: "bg-blue-100 text-blue-700",
-  ONGOING: "bg-emerald-100 text-emerald-700",
-  COMPLETED: "bg-indigo-100 text-indigo-700",
-  CANCELED: "bg-red-100 text-red-600",
+  DRAFT: "bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400",
+  UPCOMING: "bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400",
+  ONGOING: "bg-emerald-100 dark:bg-emerald-500/20 text-emerald-700 dark:text-emerald-400",
+  COMPLETED: "bg-indigo-100 dark:bg-indigo-500/20 text-indigo-700 dark:text-indigo-400",
+  CANCELED: "bg-red-100 dark:bg-red-500/20 text-red-600 dark:text-red-400",
 };
 
 // Hanya turnamen dengan status ini yang bisa diarsipkan
@@ -158,16 +158,16 @@ export default function TournamentTable({
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
       {/* Tab Aktif / Arsip */}
-      <div className="flex gap-1 p-4 border-b border-slate-200 bg-slate-50/60">
+      <div className="flex gap-1 p-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-700/30">
         <button
           type="button"
           onClick={() => setTab("aktif")}
           className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "aktif"
-              ? "bg-white text-blue-700 shadow-sm border border-slate-200"
-              : "text-slate-500 hover:text-slate-800"
+              ? "bg-white dark:bg-slate-800 text-primary-800 dark:text-primary-300 shadow-sm border border-slate-200 dark:border-slate-600"
+              : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
           }`}
         >
           Aktif ({tournaments.length})
@@ -177,8 +177,8 @@ export default function TournamentTable({
           onClick={() => setTab("arsip")}
           className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all ${
             tab === "arsip"
-              ? "bg-white text-blue-700 shadow-sm border border-slate-200"
-              : "text-slate-500 hover:text-slate-800"
+              ? "bg-white dark:bg-slate-800 text-primary-800 dark:text-primary-300 shadow-sm border border-slate-200 dark:border-slate-600"
+              : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200"
           }`}
         >
           Arsip ({archivedTournaments.length})
@@ -186,9 +186,9 @@ export default function TournamentTable({
       </div>
 
       {/* Toolbar Filter */}
-      <div className="p-4 border-b border-slate-200 flex flex-col lg:flex-row lg:items-center gap-3">
+      <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex flex-col lg:flex-row lg:items-center gap-3">
         <div className="relative flex-1">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500">
             🔍
           </span>
           <input
@@ -196,14 +196,14 @@ export default function TournamentTable({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Cari nama turnamen, lokasi, atau kategori..."
-            className="w-full pl-9 pr-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+            className="w-full pl-9 pr-4 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
           />
         </div>
         <div className="flex gap-3">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-3 py-2.5 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary outline-none transition-all"
           >
             <option value="ALL">Semua Status</option>
             {STATUS_OPTIONS.map((s) => (
@@ -215,7 +215,7 @@ export default function TournamentTable({
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-2.5 border border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+            className="px-3 py-2.5 border border-slate-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 focus:ring-2 focus:ring-primary outline-none transition-all"
           >
             <option value="ALL">Semua Kategori</option>
             {categories.map((c) => (
@@ -228,14 +228,14 @@ export default function TournamentTable({
       </div>
 
       {/* Info Hasil */}
-      <div className="px-4 py-2 bg-slate-50 border-b border-slate-200 text-xs text-slate-500">
+      <div className="px-4 py-2 bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 text-xs text-slate-500 dark:text-slate-400">
         {filtered.length} dari {currentList.length} turnamen ditemukan
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-sm">
+            <tr className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 text-sm">
               <th className="p-4 font-semibold">Nama Turnamen</th>
               <th className="p-4 font-semibold">Kategori</th>
               <th className="p-4 font-semibold">Tanggal</th>
@@ -244,10 +244,10 @@ export default function TournamentTable({
               <th className="p-4 font-semibold text-right">Aksi</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200 text-sm">
+          <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-sm">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={6} className="p-8 text-center text-slate-500">
+                <td colSpan={6} className="p-8 text-center text-slate-500 dark:text-slate-400">
                   {currentList.length === 0
                     ? tab === "aktif"
                       ? "Belum ada turnamen. Silakan tambah turnamen baru!"
@@ -257,24 +257,24 @@ export default function TournamentTable({
               </tr>
             ) : (
               filtered.map((tournament) => (
-                <tr key={tournament.id} className="hover:bg-slate-50 transition-colors">
-                  <td className="p-4 font-medium text-slate-900">{tournament.name}</td>
+                <tr key={tournament.id} className="hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+                  <td className="p-4 font-medium text-slate-900 dark:text-slate-100">{tournament.name}</td>
                   <td className="p-4">
                     {tournament.category ? (
-                      <span className="inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 whitespace-nowrap">
+                      <span className="inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-primary-50 dark:bg-primary-200/10 text-primary-700 dark:text-primary-300 whitespace-nowrap">
                         {tournament.category}
                       </span>
                     ) : (
-                      <span className="text-slate-400 text-xs">-</span>
+                      <span className="text-slate-400 dark:text-slate-500 text-xs">-</span>
                     )}
                   </td>
-                  <td className="p-4 text-slate-600 whitespace-nowrap">
+                  <td className="p-4 text-slate-600 dark:text-slate-400 whitespace-nowrap">
                     {formatDate(tournament.startDate)} - {formatDate(tournament.endDate)}
                   </td>
-                  <td className="p-4 text-slate-600">{tournament.location}</td>
+                  <td className="p-4 text-slate-600 dark:text-slate-400">{tournament.location}</td>
                   <td className="p-4">
                     {tab === "arsip" ? (
-                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400">
                         🗃️ Diarsipkan
                       </span>
                     ) : (
@@ -294,7 +294,7 @@ export default function TournamentTable({
                           type="button"
                           onClick={() => handleRestore(tournament)}
                           disabled={deletingId === tournament.id}
-                          className="inline-block px-3 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-md font-medium transition-colors disabled:opacity-50"
+                          className="inline-block px-3 py-1.5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 rounded-md font-medium transition-colors disabled:opacity-50"
                         >
                           {deletingId === tournament.id ? "..." : "♻️ Pulihkan"}
                         </button>
@@ -303,7 +303,7 @@ export default function TournamentTable({
                             type="button"
                             onClick={() => handlePermanentDelete(tournament)}
                             disabled={deletingId === tournament.id}
-                            className="inline-block px-3 py-1.5 bg-red-600 text-white hover:bg-red-700 rounded-md font-medium transition-colors disabled:opacity-50"
+                            className="inline-block px-3 py-1.5 bg-danger text-[#ffffff] hover:bg-danger-hover rounded-md font-medium transition-colors disabled:opacity-50"
                             title="Hapus permanen beserta semua data (khusus CANCELED)"
                           >
                             {deletingId === tournament.id ? "..." : "🗑️ Hapus Permanen"}
@@ -314,21 +314,21 @@ export default function TournamentTable({
                       <>
                         <Link
                           href={`/admin/tournaments/${tournament.id}/brackets`}
-                          className="inline-block px-3 py-1.5 bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-md font-medium transition-colors"
+                          className="inline-block px-3 py-1.5 bg-primary-50 dark:bg-primary-200/10 text-primary-700 dark:text-primary-300 hover:bg-primary-100 dark:hover:bg-primary-200/20 rounded-md font-medium transition-colors"
                           title="Kelola Bagan Pertandingan"
                         >
                           🌳 Bagan
                         </Link>
                         <Link
                           href={`/admin/tournaments/${tournament.id}/pools`}
-                          className="inline-block px-3 py-1.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 rounded-md font-medium transition-colors"
+                          className="inline-block px-3 py-1.5 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 rounded-md font-medium transition-colors"
                           title="Kelola Pool & Penempatan Peserta"
                         >
                           🏊 Pool
                         </Link>
                         <Link
                           href={`/admin/tournaments/${tournament.id}/edit`}
-                          className="inline-block px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-md font-medium transition-colors"
+                          className="inline-block px-3 py-1.5 bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-md font-medium transition-colors"
                         >
                           Edit
                         </Link>
@@ -337,7 +337,7 @@ export default function TournamentTable({
                             type="button"
                             onClick={() => handleArchive(tournament)}
                             disabled={deletingId === tournament.id}
-                            className="inline-block px-3 py-1.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-md font-medium transition-colors disabled:opacity-50"
+                            className="inline-block px-3 py-1.5 bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/20 rounded-md font-medium transition-colors disabled:opacity-50"
                             title="Arsipkan turnamen (soft delete)"
                           >
                             {deletingId === tournament.id ? "..." : "🗑️ Hapus"}

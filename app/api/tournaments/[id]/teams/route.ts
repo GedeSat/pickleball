@@ -6,14 +6,13 @@
  * ============================================================
  */
 
-import { PrismaClient, Gender, MatchType } from "@prisma/client";
+import { Gender, MatchType } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
 import {
   buildCategoryInfo,
   validateGenderForMatchType,
 } from "@/lib/tournamentCategory";
-
-const prisma = new PrismaClient();
 
 // ----------------------------------------------------------------
 // GET: List semua team dalam turnamen

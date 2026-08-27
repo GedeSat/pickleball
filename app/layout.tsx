@@ -2,7 +2,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import ThemeToggle from "@/components/ThemeToggle";
 
 // NAVBAR DAN FOOTER SUDAH DIHAPUS DARI SINI
 
@@ -41,8 +40,6 @@ export default function RootLayout({
       >
         {/* Sekarang Root Layout murni hanya merender children */}
         <main>{children}</main>
-        {/* Toggle mode gelap — floating, tersedia di semua halaman */}
-        <ThemeToggle />
       </body>
     </html>
   );

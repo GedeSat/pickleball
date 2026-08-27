@@ -4,8 +4,8 @@ import Link from "next/link";
 import KnockoutBracketRender from "@/app/admin/(dashboard)/tournaments/[id]/brackets/KnockoutBracketRender";
 import { PoolMatrixTable } from "@/app/admin/(dashboard)/tournaments/[id]/pools/PoolBracketMatrix";
 import { categoryKeyToLabel } from "@/lib/categoryLabel";
+import LiveScorePoller from "@/components/LiveScorePoller";
 
-export const revalidate = 30;
 
 type PublicPool = {
   id: number;
@@ -135,20 +135,20 @@ export default async function PublicBracketPage({
 
   if (allCategories.length === 0) {
     return (
-      <main className="min-h-screen bg-slate-50 py-12 px-4">
+      <main className="min-h-screen bg-slate-50 dark:bg-slate-900 py-12 px-4">
         <div className="max-w-4xl mx-auto text-center">
           <Link
             href={`/tournament/${tournamentId}`}
-            className="text-yellow-600 font-semibold text-sm hover:underline mb-6 inline-block"
+            className="text-primary-700 dark:text-primary-300 font-semibold text-sm hover:underline mb-6 inline-block"
           >
             &larr; Kembali ke Detail Turnamen
           </Link>
-          <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-12 mt-4">
+          <div className="bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm p-12 mt-4">
             <div className="text-5xl mb-4">📋</div>
-            <h2 className="text-xl font-bold text-slate-800 mb-2">
+            <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
               Bagan Belum Tersedia
             </h2>
-            <p className="text-slate-500">
+            <p className="text-slate-500 dark:text-slate-400">
               Bagan pertandingan untuk turnamen ini belum disusun oleh panitia.
             </p>
           </div>
@@ -158,34 +158,37 @@ export default async function PublicBracketPage({
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 py-12 px-4">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-900 py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <Link
           href={`/tournament/${tournamentId}`}
-          className="text-yellow-600 font-semibold text-sm hover:underline mb-6 inline-block"
+          className="text-primary-700 dark:text-primary-300 font-semibold text-sm hover:underline mb-6 inline-block"
         >
           &larr; Kembali ke Detail Turnamen
         </Link>
 
-        <div className="mb-6">
-          <h1 className="text-3xl md:text-4xl font-black text-slate-900 mb-2">
-            🏆 Bagan {tournament.name}
-          </h1>
-          <p className="text-slate-500">
-            Fase Grup (Round-Robin) — Hasil &amp; Klasemen Terkini
-          </p>
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-slate-100 mb-2">
+              🏆 Bagan {tournament.name}
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400">
+              Fase Grup (Round-Robin) — Hasil &amp; Klasemen Terkini
+            </p>
+          </div>
+          <LiveScorePoller />
         </div>
 
         {/* Tab filter kategori */}
         {allCategories.length > 1 && (
-          <div className="sticky top-0 z-10 -mx-1 mb-8 flex gap-2 overflow-x-auto px-1 py-3 bg-gradient-to-b from-slate-50 via-slate-50/95 to-slate-50/0">
+          <div className="sticky top-0 z-10 -mx-1 mb-8 flex gap-2 overflow-x-auto px-1 py-3 bg-gradient-to-b from-slate-50 via-slate-50/95 to-slate-50/0 dark:from-slate-900 dark:via-slate-900/95 dark:to-slate-900/0">
             <Link
               href={`/tournament/${tournamentId}/bracket`}
               scroll={false}
               className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-1.5 text-sm font-semibold shadow-sm transition-colors ${
                 activeCategory === ALL_CATEGORY
-                  ? "border-indigo-600 bg-indigo-600 text-white"
-                  : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300 hover:text-indigo-700"
+                  ? "border-primary bg-primary text-[#ffffff]"
+                  : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary-700 dark:hover:text-primary-300"
               }`}
             >
               Semua Kategori
@@ -201,8 +204,8 @@ export default async function PublicBracketPage({
                   scroll={false}
                   className={`shrink-0 whitespace-nowrap rounded-full border px-4 py-1.5 text-sm font-semibold shadow-sm transition-colors ${
                     isActive
-                      ? "border-indigo-600 bg-indigo-600 text-white"
-                      : "border-slate-200 bg-white text-slate-600 hover:border-indigo-300 hover:text-indigo-700"
+                      ? "border-primary bg-primary text-[#ffffff]"
+                      : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:border-primary hover:text-primary-700 dark:hover:text-primary-300"
                   }`}
                 >
                   {categoryLabel(cat)}
@@ -254,8 +257,8 @@ export default async function PublicBracketPage({
 
           return (
             <div key={category} className="mb-12">
-              <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-                <span className="px-4 py-1.5 bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center gap-2">
+                <span className="px-4 py-1.5 bg-primary-100 dark:bg-primary-200/20 text-primary-800 dark:text-primary-100 rounded-full text-sm font-bold">
                   {categoryLabel(category)}
                 </span>
               </h2>
@@ -267,23 +270,23 @@ export default async function PublicBracketPage({
                     <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400">
                       📊 Bagan Grup (Round-Robin)
                     </h3>
-                    <div className="h-px flex-1 bg-slate-200" />
+                    <div className="h-px flex-1 bg-slate-200 dark:bg-slate-600" />
                   </div>
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                     {categoryPools.map((pool) => (
                       <div
                         key={pool.id}
-                        className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col"
+                        className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden flex flex-col"
                       >
-                        <div className="bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] px-5 py-3 flex items-center gap-3">
-                          <span className="shrink-0 inline-flex items-center rounded-full bg-indigo-100 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-indigo-700">
+                        <div className="bg-gradient-to-r from-primary to-amber-500 px-5 py-3 flex items-center gap-3">
+                          <span className="shrink-0 inline-flex items-center rounded-full bg-amber-400 px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-brand">
                             Pool {pool.poolCode}
                           </span>
                           <div className="min-w-0">
-                            <h3 className="text-base font-bold text-white truncate">
+                            <h3 className="text-base font-bold text-[#ffffff] truncate">
                               {pool.label}
                             </h3>
-                            <p className="text-indigo-200 text-xs">
+                            <p className="text-[#ffffff]/80 text-xs">
                               Bagan Grup — hasil round-robin per peserta
                             </p>
                           </div>
@@ -319,13 +322,13 @@ export default async function PublicBracketPage({
                     return (
                       <div
                         key={group.id}
-                        className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden"
+                        className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden"
                       >
-                        <div className="bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] px-5 py-3">
-                          <h3 className="text-base font-bold text-white">
+                        <div className="bg-gradient-to-r from-primary to-amber-500 px-5 py-3">
+                          <h3 className="text-base font-bold text-[#ffffff]">
                             {group.name}
                           </h3>
-                          <p className="text-indigo-200 text-xs">
+                          <p className="text-[#ffffff]/80 text-xs">
                             {group.members.length} pemain
                           </p>
                         </div>
@@ -335,7 +338,7 @@ export default async function PublicBracketPage({
                           <div className="overflow-x-auto">
                             <table className="w-full text-sm">
                               <thead>
-                                <tr className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                                <tr className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
                                   <th className="py-2.5 px-3 text-left font-bold">
                                     #
                                   </th>
@@ -353,12 +356,12 @@ export default async function PublicBracketPage({
                                   </th>
                                 </tr>
                               </thead>
-                              <tbody className="divide-y divide-slate-100">
+                              <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                                 {sortedMembers.map((member) => (
                                   <tr
                                     key={member.id}
                                     className={
-                                      member.rank === 1 ? "bg-yellow-50" : ""
+                                      member.rank === 1 ? "bg-gold/20" : ""
                                     }
                                   >
                                     <td className="py-2.5 px-3 font-bold text-slate-400">
@@ -368,7 +371,7 @@ export default async function PublicBracketPage({
                                       {(member.rank || 0) > 3 && member.rank}
                                       {!member.rank && "-"}
                                     </td>
-                                    <td className="py-2.5 px-3 font-semibold text-slate-800">
+                                    <td className="py-2.5 px-3 font-semibold text-slate-800 dark:text-slate-200">
                                       {member.playerName}
                                     </td>
                                     <td className="py-2.5 px-2 text-center font-bold text-emerald-600">
@@ -397,7 +400,7 @@ export default async function PublicBracketPage({
                         )}
 
                         {/* Match Results */}
-                        <div className="p-4 border-t border-slate-100">
+                        <div className="p-4 border-t border-slate-100 dark:border-slate-700">
                           <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
                             Hasil Pertandingan
                           </h4>
@@ -408,14 +411,14 @@ export default async function PublicBracketPage({
                                 className={`flex items-center justify-between text-sm px-3 py-2 rounded-lg ${
                                   match.status === "DONE"
                                     ? "bg-emerald-50"
-                                    : "bg-slate-50"
+                                    : "bg-slate-50 dark:bg-slate-700"
                                 }`}
                               >
                                 <span
                                   className={`font-medium truncate flex-1 ${
                                     match.winnerName === match.player1Name
                                       ? "text-emerald-700 font-bold"
-                                      : "text-slate-600"
+                                      : "text-slate-600 dark:text-slate-300"
                                   }`}
                                 >
                                   {match.player1Name}
@@ -429,7 +432,7 @@ export default async function PublicBracketPage({
                                   className={`font-medium truncate flex-1 text-right ${
                                     match.winnerName === match.player2Name
                                       ? "text-emerald-700 font-bold"
-                                      : "text-slate-600"
+                                      : "text-slate-600 dark:text-slate-300"
                                   }`}
                                 >
                                   {match.player2Name}
@@ -451,12 +454,12 @@ export default async function PublicBracketPage({
 
               {/* Overall Ranking (sistem Pool) */}
               {isPool && poolRanking.length > 0 && (
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
                   <div className="bg-gradient-to-r from-yellow-500 to-amber-500 px-6 py-4">
-                    <h3 className="text-base font-bold text-white">
+                    <h3 className="text-base font-bold text-amber-950">
                       🏅 Ranking Keseluruhan — {categoryLabel(category)}
                     </h3>
-                    <p className="text-yellow-100 text-xs mt-0.5">
+                    <p className="text-amber-900 text-xs mt-0.5">
                       Juara &amp; runner-up tiap pool menjadi satu klasemen
                       peringkat.
                     </p>
@@ -464,7 +467,7 @@ export default async function PublicBracketPage({
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                        <tr className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
                           <th className="py-3 px-4 text-left font-bold">
                             Rank
                           </th>
@@ -490,13 +493,13 @@ export default async function PublicBracketPage({
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                         {poolRanking.map((member, idx) => (
                           <tr
                             key={member.id}
                             className={`${
                               idx === 0
-                                ? "bg-yellow-50"
+                                ? "bg-gold/20"
                                 : idx === 1
                                 ? "bg-slate-50/50"
                                 : idx === 2
@@ -513,15 +516,15 @@ export default async function PublicBracketPage({
                                 ? "🥉"
                                 : idx + 1}
                             </td>
-                            <td className="py-3 px-4 font-semibold text-slate-800">
+                            <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">
                               {member.memberName}
                             </td>
                             <td className="py-3 px-4">
-                              <span className="px-2 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-semibold">
+                              <span className="px-2 py-1 bg-primary-50 dark:bg-primary-200/10 text-primary-700 dark:text-primary-300 rounded-full text-xs font-semibold">
                                 {member.poolLabel}
                               </span>
                             </td>
-                            <td className="py-3 px-3 text-center text-slate-600">
+                            <td className="py-3 px-3 text-center text-slate-600 dark:text-slate-300">
                               {member.played}
                             </td>
                             <td className="py-3 px-3 text-center font-bold text-emerald-600">
@@ -530,10 +533,10 @@ export default async function PublicBracketPage({
                             <td className="py-3 px-3 text-center font-bold text-red-500">
                               {member.losses}
                             </td>
-                            <td className="py-3 px-3 text-center text-slate-600">
+                            <td className="py-3 px-3 text-center text-slate-600 dark:text-slate-300">
                               {member.pointsFor}
                             </td>
-                            <td className="py-3 px-3 text-center text-slate-600">
+                            <td className="py-3 px-3 text-center text-slate-600 dark:text-slate-300">
                               {member.pointsAgainst}
                             </td>
                             <td
@@ -558,16 +561,16 @@ export default async function PublicBracketPage({
 
               {/* Overall Ranking (sistem legacy) */}
               {!isPool && allMembers.length > 0 && (
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
                   <div className="bg-gradient-to-r from-yellow-500 to-amber-500 px-6 py-4">
-                    <h3 className="text-base font-bold text-white">
+                    <h3 className="text-base font-bold text-[#ffffff]">
                       🏅 Ranking Keseluruhan — {categoryLabel(category)}
                     </h3>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead>
-                        <tr className="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                        <tr className="bg-slate-50 dark:bg-slate-900 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">
                           <th className="py-3 px-4 text-left font-bold">
                             Rank
                           </th>
@@ -584,13 +587,13 @@ export default async function PublicBracketPage({
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-100">
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                         {allMembers.map((member, idx) => (
                           <tr
                             key={member.id}
                             className={`${
                               idx === 0
-                                ? "bg-yellow-50"
+                                ? "bg-gold/20"
                                 : idx === 1
                                 ? "bg-slate-50/50"
                                 : idx === 2
@@ -607,11 +610,11 @@ export default async function PublicBracketPage({
                                 ? "🥉"
                                 : idx + 1}
                             </td>
-                            <td className="py-3 px-4 font-semibold text-slate-800">
+                            <td className="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200">
                               {member.playerName}
                             </td>
                             <td className="py-3 px-4">
-                              <span className="px-2 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-semibold">
+                              <span className="px-2 py-1 bg-primary-50 dark:bg-primary-200/10 text-primary-700 dark:text-primary-300 rounded-full text-xs font-semibold">
                                 {member.groupName}
                               </span>
                             </td>
@@ -643,13 +646,13 @@ export default async function PublicBracketPage({
 
               {/* Knockout Bracket */}
               {categoryKnockouts.length > 0 && (
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-6 mt-8">
+                <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden p-6 mt-8">
                   <div className="mb-6">
-                    <h3 className="text-xl font-bold text-slate-900">
-                      ⚔️ Fase Knockout
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100">
+                      ⚔️ Fase Gugur
                     </h3>
-                    <p className="text-sm text-slate-500">
-                      Bagan sistem gugur (Juara &amp; Runner-Up grup).
+                    <p className="text-sm text-slate-500 dark:text-slate-400">
+                      Bagan dibuat otomatis dari juara &amp; runner-up tiap pool.
                     </p>
                   </div>
                   <div className="overflow-x-auto pb-8">

@@ -79,8 +79,8 @@ const mapApiPool = (p: PoolApiPool): PoolData => ({
   categoryKey: p.categoryKey,
   matches: (p.matches ?? []).map((m) => ({
     id: m.id,
-    member1Name: m.member1?.memberName ?? "TBD",
-    member2Name: m.member2?.memberName ?? "TBD",
+    member1Name: m.member1?.memberName ?? "Menunggu",
+    member2Name: m.member2?.memberName ?? "Menunggu",
     score1: m.score1,
     score2: m.score2,
     winnerName: m.winnerName,
@@ -400,7 +400,7 @@ export default function WasitPage() {
   // ============================================================
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E1B4B] to-[#0F172A] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-brand via-brand-2 to-brand flex items-center justify-center p-4">
         <div className="text-center">
           <span className="text-4xl inline-block animate-bounce">🏁</span>
           <p className="text-slate-400 mt-4 text-sm">Memuat portal...</p>
@@ -414,14 +414,14 @@ export default function WasitPage() {
   // ============================================================
   if (step === "login") {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E1B4B] to-[#0F172A] flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-brand via-brand-2 to-brand flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           {/* Logo/Title */}
           <div className="text-center mb-8">
-            <div className="w-20 h-20 bg-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-yellow-400/30">
+            <div className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-primary-800/30">
               <span className="text-4xl">🏁</span>
             </div>
-            <h1 className="text-3xl font-black text-white tracking-tight">Portal Wasit</h1>
+            <h1 className="text-3xl font-black text-[#ffffff] tracking-tight">Portal Wasit</h1>
             <p className="text-slate-400 mt-2 text-sm">IPF Kota Denpasar — Input Skor Pertandingan</p>
           </div>
 
@@ -438,7 +438,7 @@ export default function WasitPage() {
                   value={nameInput}
                   onChange={(e) => { setNameInput(e.target.value); setLoginError(""); }}
                   placeholder="Tulis nama lengkap Anda..."
-                  className="w-full px-4 py-3.5 bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.2)] rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent text-base"
+                  className="w-full px-4 py-3.5 bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.2)] rounded-xl text-[#ffffff] placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-base"
                   autoFocus
                 />
                 {loginError && (
@@ -452,7 +452,7 @@ export default function WasitPage() {
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-yellow-400 hover:bg-yellow-300 text-[#0F172A] font-bold rounded-xl transition-colors text-base shadow-lg shadow-yellow-400/30"
+                className="w-full py-3.5 bg-primary hover:bg-primary-hover text-[#ffffff] font-bold rounded-xl transition-colors text-base shadow-lg shadow-primary-800/30"
               >
                 Masuk sebagai Wasit →
               </button>
@@ -467,13 +467,13 @@ export default function WasitPage() {
   // RENDER — DASHBOARD
   // ============================================================
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#1E1B4B] to-[#0F172A]">
+    <div className="min-h-screen bg-gradient-to-br from-brand via-brand-2 to-brand">
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-[rgba(15,23,42,0.8)] backdrop-blur-xl border-b border-[rgba(255,255,255,0.1)]">
+      <header className="sticky top-0 z-40 bg-[rgba(28,15,15,0.8)] backdrop-blur-xl border-b border-[rgba(255,255,255,0.1)]">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div>
-            <h1 className="text-lg font-black text-white">🏁 Portal Wasit</h1>
-            <p className="text-xs text-yellow-400 font-semibold">Wasit: {refereeName}</p>
+            <h1 className="text-lg font-black text-[#ffffff]">🏁 Portal Wasit</h1>
+            <p className="text-xs text-amber-400 font-semibold">Wasit: {refereeName}</p>
           </div>
           <button
             onClick={() => { localStorage.removeItem("wasit-referee-name"); setStep("login"); setRefereeName(""); setNameInput(""); setSelectedTournament(null); }}
@@ -489,7 +489,7 @@ export default function WasitPage() {
         {/* Pilih Turnamen */}
         {!selectedTournament ? (
           <div className="space-y-4">
-            <h2 className="text-white font-bold text-xl">Pilih Turnamen</h2>
+            <h2 className="text-[#ffffff] font-bold text-xl">Pilih Turnamen</h2>
             {tournaments.length === 0 ? (
               <div className="bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.15)] rounded-2xl p-12 text-center">
                 <span className="text-4xl block mb-3">🏜️</span>
@@ -504,10 +504,10 @@ export default function WasitPage() {
                     className="flex items-center justify-between bg-[rgba(255,255,255,0.1)] hover:bg-[rgba(255,255,255,0.2)] border border-[rgba(255,255,255,0.15)] rounded-2xl p-5 text-left transition-all group"
                   >
                     <div>
-                      <p className="font-bold text-white text-base group-hover:text-yellow-300 transition-colors">{t.name}</p>
+                      <p className="font-bold text-[#ffffff] text-base group-hover:text-amber-300 transition-colors">{t.name}</p>
                       <p className="text-xs text-slate-400 mt-0.5">Status: {t.status}</p>
                     </div>
-                    <span className="text-yellow-400 text-xl group-hover:translate-x-1 transition-transform">→</span>
+                    <span className="text-amber-400 text-xl group-hover:translate-x-1 transition-transform">→</span>
                   </button>
                 ))}
               </div>
@@ -519,12 +519,12 @@ export default function WasitPage() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setSelectedTournament(null)}
-                className="text-slate-400 hover:text-white text-sm transition-colors"
+                className="text-slate-400 hover:text-[#ffffff] text-sm transition-colors"
               >
                 ← Ganti Turnamen
               </button>
               <span className="text-slate-600">·</span>
-              <span className="text-white font-semibold text-sm truncate">{selectedTournament.name}</span>
+              <span className="text-[#ffffff] font-semibold text-sm truncate">{selectedTournament.name}</span>
             </div>
 
             {/* Category Tabs */}
@@ -536,7 +536,7 @@ export default function WasitPage() {
                     onClick={() => handleCategoryChange(cat)}
                     className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                       activeCategory === cat
-                        ? "bg-yellow-400 text-[#0F172A] shadow-lg shadow-yellow-400/30"
+                        ? "bg-primary text-[#ffffff] shadow-lg shadow-primary-800/30"
                         : "bg-[rgba(255,255,255,0.1)] border border-[rgba(255,255,255,0.15)] text-slate-300 hover:bg-[rgba(255,255,255,0.2)]"
                     }`}
                   >
@@ -563,10 +563,10 @@ export default function WasitPage() {
                   className={`flex-1 py-2.5 rounded-lg text-sm font-bold capitalize transition-all ${
                     activeTab === tab
                       ? "bg-white text-slate-900 shadow"
-                      : "text-slate-400 hover:text-white"
+                      : "text-slate-400 hover:text-[#ffffff]"
                   }`}
                 >
-                  {tab === "grup" ? "🏓 Fase Grup" : "⚔️ Knockout"}
+                  {tab === "grup" ? "🏓 Fase Grup" : "⚔️ Fase Gugur"}
                 </button>
               ))}
             </div>
@@ -579,8 +579,8 @@ export default function WasitPage() {
               <div className="space-y-6">
                 {/* Match Pool Belum Dilayani */}
                 <section>
-                  <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                  <h3 className="text-[#ffffff] font-bold mb-3 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
                     Pertandingan Menunggu Input ({filteredScheduledPoolMatches.length})
                   </h3>
                   {filteredScheduledPoolMatches.length === 0 ? (
@@ -634,8 +634,8 @@ export default function WasitPage() {
               <div className="space-y-6">
                 {/* Match Belum Dilayani */}
                 <section>
-                  <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                  <h3 className="text-[#ffffff] font-bold mb-3 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
                     Pertandingan Menunggu Input ({filteredScheduledGroupMatches.length})
                   </h3>
                   {filteredScheduledGroupMatches.length === 0 ? (
@@ -686,8 +686,8 @@ export default function WasitPage() {
             {!loading && activeTab === "knockout" && (
               <div className="space-y-6">
                 <section>
-                  <h3 className="text-white font-bold mb-3 flex items-center gap-2">
-                    <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                  <h3 className="text-[#ffffff] font-bold mb-3 flex items-center gap-2">
+                    <span className="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
                     Pertandingan Menunggu Input ({filteredScheduledKnockouts.length})
                   </h3>
                   {filteredScheduledKnockouts.length === 0 ? (
@@ -697,8 +697,8 @@ export default function WasitPage() {
                       {filteredScheduledKnockouts.map((k) => (
                         <MatchCard
                           key={k.id}
-                          player1={displayParticipantName(k.player1Name) || "TBD"}
-                          player2={displayParticipantName(k.player2Name) || "TBD"}
+                          player1={displayParticipantName(k.player1Name)}
+                          player2={displayParticipantName(k.player2Name)}
                           score1={null}
                           score2={null}
                           status="SCHEDULED"
@@ -719,8 +719,8 @@ export default function WasitPage() {
                       {filteredDoneKnockouts.map((k) => (
                         <MatchCard
                           key={k.id}
-                          player1={k.player1Name || "TBD"}
-                          player2={k.player2Name || "TBD"}
+                          player1={k.player1Name || "Menunggu"}
+                          player2={k.player2Name || "Menunggu"}
                           score1={k.score1}
                           score2={k.score2}
                           status="DONE"
@@ -740,9 +740,9 @@ export default function WasitPage() {
       {/* Score Input Modal */}
       {scoreTarget && (
         <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-          <div className="bg-[#0F172A] border border-[rgba(255,255,255,0.15)] rounded-3xl p-6 w-full max-w-sm shadow-2xl">
-            <h3 className="text-lg font-bold text-white text-center mb-1">Input Skor</h3>
-            <p className="text-xs text-yellow-400 text-center mb-5 font-semibold">Wasit: {refereeName}</p>
+          <div className="bg-brand border border-[rgba(255,255,255,0.15)] rounded-3xl p-6 w-full max-w-sm shadow-2xl">
+            <h3 className="text-lg font-bold text-[#ffffff] text-center mb-1">Input Skor</h3>
+            <p className="text-xs text-amber-400 text-center mb-5 font-semibold">Wasit: {refereeName}</p>
 
             <form onSubmit={handleSubmitScore} className="space-y-5">
               <div className="flex items-center gap-3">
@@ -753,7 +753,7 @@ export default function WasitPage() {
                       ? scoreTarget.match.member1Name
                       : scoreTarget.type === "group"
                       ? scoreTarget.match.player1Name
-                      : scoreTarget.match.player1Name || "TBD"}
+                      : scoreTarget.match.player1Name || "Menunggu"}
                   </p>
                   <input
                     type="number"
@@ -761,7 +761,7 @@ export default function WasitPage() {
                     required
                     value={tempScore1}
                     onChange={(e) => setTempScore1(e.target.value)}
-                    className="w-full h-20 text-center text-4xl font-black bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.2)] rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    className="w-full h-20 text-center text-4xl font-black bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.2)] rounded-2xl text-[#ffffff] focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     autoFocus
                   />
                 </div>
@@ -773,7 +773,7 @@ export default function WasitPage() {
                       ? scoreTarget.match.member2Name
                       : scoreTarget.type === "group"
                       ? scoreTarget.match.player2Name
-                      : scoreTarget.match.player2Name || "TBD"}
+                      : scoreTarget.match.player2Name || "Menunggu"}
                   </p>
                   <input
                     type="number"
@@ -781,7 +781,7 @@ export default function WasitPage() {
                     required
                     value={tempScore2}
                     onChange={(e) => setTempScore2(e.target.value)}
-                    className="w-full h-20 text-center text-4xl font-black bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.2)] rounded-2xl text-white focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-transparent"
+                    className="w-full h-20 text-center text-4xl font-black bg-[rgba(255,255,255,0.1)] border-2 border-[rgba(255,255,255,0.2)] rounded-2xl text-[#ffffff] focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
                 </div>
               </div>
@@ -807,7 +807,7 @@ export default function WasitPage() {
                 <button
                   type="submit"
                   disabled={submitting || tempScore1 === "" || tempScore2 === ""}
-                  className="flex-1 py-3 bg-yellow-400 hover:bg-yellow-300 text-[#0F172A] rounded-xl font-black transition-colors disabled:opacity-40 shadow-lg shadow-yellow-400/20"
+                  className="flex-1 py-3 bg-primary hover:bg-primary-hover text-[#ffffff] rounded-xl font-black transition-colors disabled:opacity-40 shadow-lg shadow-primary-800/20"
                 >
                   {submitting ? "Menyimpan..." : "Simpan Skor"}
                 </button>
@@ -850,35 +850,35 @@ function MatchCard({
     <div className={`rounded-2xl border p-4 transition-all ${
       isDone
         ? "bg-[rgba(255,255,255,0.05)] border-[rgba(255,255,255,0.1)]"
-        : "bg-[rgba(255,255,255,0.1)] border-yellow-400/30 hover:border-yellow-400/60"
+        : "bg-[rgba(255,255,255,0.1)] border-amber-400/30 hover:border-primary/60"
     }`}>
       <div className="flex items-center gap-1 mb-3">
         {groupName && (
           <span className="text-xs text-slate-500 font-medium">{groupName}</span>
         )}
         <span className={`ml-auto text-xs font-bold px-2 py-0.5 rounded-full ${
-          isDone ? "bg-green-500/20 text-green-400" : "bg-yellow-400/20 text-yellow-400"
+          isDone ? "bg-green-500/20 text-green-400" : "bg-primary/20 text-amber-400"
         }`}>
           {isDone ? "Selesai" : "Menunggu"}
         </span>
       </div>
 
       <div className="flex items-center gap-3">
-        <p className={`flex-1 font-bold text-sm truncate ${p1Wins ? "text-yellow-300" : "text-white"}`}>
+        <p className={`flex-1 font-bold text-sm truncate ${p1Wins ? "text-amber-300" : "text-[#ffffff]"}`}>
           {player1} {p1Wins && "🏆"}
         </p>
         {isDone ? (
-          <div className="text-center font-black text-lg text-white shrink-0">
-            <span className={p1Wins ? "text-yellow-300" : ""}>{score1}</span>
+          <div className="text-center font-black text-lg text-[#ffffff] shrink-0">
+            <span className={p1Wins ? "text-amber-300" : ""}>{score1}</span>
             <span className="text-slate-500 mx-1">–</span>
-            <span className={p2Wins ? "text-yellow-300" : ""}>{score2}</span>
+            <span className={p2Wins ? "text-amber-300" : ""}>{score2}</span>
           </div>
         ) : (
           <div className="text-center shrink-0">
             <span className="text-slate-500 font-bold text-xs">VS</span>
           </div>
         )}
-        <p className={`flex-1 font-bold text-sm truncate text-right ${p2Wins ? "text-yellow-300" : "text-white"}`}>
+        <p className={`flex-1 font-bold text-sm truncate text-right ${p2Wins ? "text-amber-300" : "text-[#ffffff]"}`}>
           {p2Wins && "🏆 "}{player2}
         </p>
       </div>
@@ -890,7 +890,7 @@ function MatchCard({
       {!isDone && onInput && (
         <button
           onClick={onInput}
-          className="w-full mt-3 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-[#0F172A] rounded-xl font-bold text-sm transition-colors shadow shadow-yellow-400/20"
+          className="w-full mt-3 py-2.5 bg-primary hover:bg-primary-hover text-[#ffffff] rounded-xl font-bold text-sm transition-colors shadow shadow-primary-800/20"
         >
           Input Skor
         </button>

@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
-
-const prisma = new PrismaClient();
 
 // Fungsi untuk menentukan jumlah kelipatan 2 pembentuk bracket (2, 4, 8, 16...)
 function getNextPowerOf2(num: number) {

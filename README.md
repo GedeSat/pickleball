@@ -1,36 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pickleball Platform
 
-## Getting Started
+Platform manajemen turnamen Pickleball berbasis web — mulai dari registrasi pemain, pembagian pool, bracket knockout, hingga fitur wasit (referee).
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework:** Next.js 16 (App Router)
+- **UI:** React 19, Tailwind CSS 4, styled-components
+- **Database:** MariaDB / MySQL + Prisma ORM 5
+- **Auth:** NextAuth 4
+- **Libraries:** SweetAlert2, jspdf, react-svg-pan-zoom, xlsx-js-style
+
+## Fitur Utama
+
+- Manajemen turnamen (DRAFT → UPCOMING → ONGOING → COMPLETED)
+- Kategori & grade turnamen (SD, SMP, SMA, Open, U11–U21)
+- Pool stage & bracket knockout
+- Registrasi pemain & tim (single, double, mixed)
+- Upload bukti pembayaran
+- Interface wasit (referee) — tanpa login, link langsung dibagikan
+- Dashboard admin
+- Artikel, kategori, & komentar
+- Upload file/gambar
+
+## Struktur Folder
+
+```
+app/
+  ├─ admin/          # Dashboard admin
+  ├─ api/            # API route handlers
+  ├─ wasit/          # Interface wasit
+  ├─ layout.tsx
+  └─ globals.css
+components/           # Reusable UI components
+lib/                  # Shared utilities & business logic
+prisma/               # Schema, migrations, generated client
+public/               # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Instalasi & Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prasyarat
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js >= 18
+- MariaDB / MySQL
+- npm
 
-## Learn More
+### Langkah
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# clone repo
+git clone https://github.com/Gede-Satya/pickleball.git
+cd pickleball
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# install dependency
+npm install
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# copy env & konfigurasi
+cp .env.example .env
+# isi DATABASE_URL, NEXTAUTH_SECRET, dll di .env
 
-## Deploy on Vercel
+# generate Prisma client
+npx prisma generate
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# jalankan migration (jika perlu)
+npx prisma migrate dev
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# jalankan development server
+npm run dev
+```
+
+Buka [http://localhost:3000](http://localhost:3000).
+
+## Environment Variables
+
+| Key | Deskripsi |
+|-----|-----------|
+| `DATABASE_URL` | Connection string database MariaDB/MySQL |
+| `NEXTAUTH_SECRET` | Secret untuk enkripsi session NextAuth |
+
+## Development Commands
+
+| Command | Deskripsi |
+|---------|-----------|
+| `npm run dev` | Jalankan dev server (next dev --webpack) |
+| `npm run build` | Build untuk production |
+| `npm run start` | Jalankan production server |
+| `npm run lint` | Jalankan ESLint |
+
+## Kontribusi
+
+1. Fork repo
+2. Buat branch baru: `git checkout -b feature/nama-fitur`
+3. Commit perubahan: `git commit -m "feat: deskripsi singkat"`
+4. Push dan buat Pull Request
+
+## Lisensi
+
+Proprietary

@@ -1,11 +1,10 @@
 'use server'
 
-import { PrismaClient, TournamentStatus } from '@prisma/client'
+import { TournamentStatus } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { parseGradeOptionsPayload } from '@/lib/tournamentGrades'
-
-const prisma = new PrismaClient()
 
 export async function updateTournament(formData: FormData) { 
   const id = parseInt(formData.get('id') as string) 

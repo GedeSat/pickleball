@@ -1,11 +1,9 @@
 import React from "react";
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/lib/prisma';
 import Link from "next/link";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/lib/authOptions';
 
-export const dynamic = 'force-dynamic';
-
-
-const prisma = new PrismaClient();
 
 // Tipe data gabungan untuk satu baris aktivitas
 type ActivityItem = {
@@ -42,13 +40,36 @@ type ActivityConfig = {
 };
 
 const activityConfig: { [key in ActivityItem["type"]]: ActivityConfig } = {
-  turnamen: { icon: "🏆", label: "Turnamen baru ditambahkan", bg: "bg-blue-100", text: "text-blue-600" },
-  pemain: { icon: "👥", label: "Pemain baru terdaftar", bg: "bg-green-100", text: "text-green-600" },
-  berita: { icon: "📝", label: "Berita baru dipublikasikan", bg: "bg-yellow-100", text: "text-yellow-600" },
-  club: { icon: "🛡️", label: "Club afiliasi baru ditambahkan", bg: "bg-purple-100", text: "text-purple-600" },
+  turnamen: { 
+    icon: "🏆", 
+    label: "Turnamen baru ditambahkan", 
+    bg: "bg-white dark:bg-slate-800", 
+    text: "text-slate-900 dark:text-slate-100" 
+  },
+  pemain: { 
+    icon: "👥", 
+    label: "Pemain baru terdaftar", 
+    bg: "bg-white dark:bg-slate-800", 
+    text: "text-slate-900 dark:text-slate-100" 
+  },
+  berita: { 
+    icon: "📝", 
+    label: "Berita baru dipublikasikan", 
+    bg: "bg-white dark:bg-slate-800", 
+    text: "text-slate-900 dark:text-slate-100" 
+  },
+  club: { 
+    icon: "🛡️", 
+    label: "Club afiliasi baru ditambahkan", 
+    bg: "bg-white dark:bg-slate-800", 
+    text: "text-slate-900 dark:text-slate-100" 
+  },
 };
 
 export default async function AdminDashboard() {
+  const session = await getServerSession(authOptions);
+  const role = (session?.user?.role as string) || 'ADMIN';
+  const isMatchAdmin = role === 'MATCH_ADMIN';
 
   // Menarik data jumlah baris dari MySQL secara paralel agar loading lebih cepat
   // Asumsi: Kamu sudah membuat model di schema.prisma untuk tabel-tabel ini
@@ -176,157 +197,168 @@ export default async function AdminDashboard() {
     maximumFractionDigits: 0,
   });
 
-  const activities: ActivityItem[] = [
+  const allActivities: ActivityItem[] = [
     ...recentTurnamen.map((t) => ({ id: t.id, type: "turnamen" as const, title: t.name, createdAt: t.createdAt })),
     ...recentPemain.map((p) => ({ id: p.id, type: "pemain" as const, title: p.fullName, createdAt: p.createdAt })),
     ...recentBerita.map((b) => ({ id: b.id, type: "berita" as const, title: b.title, createdAt: b.createdAt })),
     ...recentClub.map((c) => ({ id: c.id, type: "club" as const, title: c.name, createdAt: c.createdAt })),
-  ]
+  ];
+
+  const activities = (isMatchAdmin
+    ? allActivities.filter((a) => a.type === 'turnamen' || a.type === 'pemain')
+    : allActivities
+  )
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 8); // Tampilkan 8 aktivitas terbaru saja
+    .slice(0, 8);
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Ringkasan Sistem</h1>
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-6">Ringkasan Sistem</h1>
 
       {/* KOTAK STATISTIK (Cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className={`grid grid-cols-1 md:grid-cols-2 ${isMatchAdmin ? 'lg:grid-cols-2' : 'lg:grid-cols-4'} gap-6`}>
         
         {/* Card 1 */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+          <div className="w-14 h-14 bg-primary-100 dark:bg-primary-200/20 text-primary-700 dark:text-primary-200 rounded-xl flex items-center justify-center text-2xl">
             🏆
           </div>
           <div>
-            <p className="text-sm text-slate-500 font-medium">Total Turnamen</p>
-            <p className="text-2xl font-bold text-slate-900">{totalTurnamen}</p>
+            <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">Total Turnamen</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{totalTurnamen}</p>
           </div>
         </div>
 
         {/* Card 2 */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-2xl">
+        <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+          <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-200/20 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center text-2xl">
             👥
           </div>
           <div>
-            <p className="text-sm text-slate-500 font-medium">Pemain Terdaftar</p>
-            <p className="text-2xl font-bold text-slate-900">{totalPemain}</p>
+            <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">Pemain Terdaftar</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{totalPemain}</p>
           </div>
         </div>
 
-        {/* Card 3 */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 bg-yellow-100 text-yellow-600 rounded-xl flex items-center justify-center text-2xl">
-            📝
-          </div>
-          <div>
-            <p className="text-sm text-slate-500 font-medium">Berita Aktif</p>
-            <p className="text-2xl font-bold text-slate-900">{totalBerita}</p>
-          </div>
-        </div>
+        {!isMatchAdmin && (
+          <>
+            {/* Card 3 */}
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+              <div className="w-14 h-14 bg-primary-100 dark:bg-primary-200/20 text-primary-700 dark:text-primary-200 rounded-xl flex items-center justify-center text-2xl">
+                📝
+              </div>
+              <div>
+                <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">Berita Aktif</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{totalBerita}</p>
+              </div>
+            </div>
 
-        {/* Card 4 */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-2xl">
-            🛡️
-          </div>
-          <div>
-            <p className="text-sm text-slate-500 font-medium">Club Afiliasi</p>
-            <p className="text-2xl font-bold text-slate-900">{totalClub}</p>
-          </div>
-        </div>
+            {/* Card 4 */}
+            <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex items-center gap-4">
+              <div className="w-14 h-14 bg-purple-100 dark:bg-purple-200/20 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center text-2xl">
+                🛡️
+              </div>
+              <div>
+                <p className="text-sm text-slate-600 dark:text-slate-300 font-medium">Club Afiliasi</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{totalClub}</p>
+              </div>
+            </div>
+          </>
+        )}
 
       </div>
 
-      {/* BAGIAN RINGKASAN PEMBAYARAN */}
-      <div className="mt-8 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
-          <h2 className="font-bold text-slate-800">Ringkasan Pembayaran</h2>
-          <Link
-            href="/admin/players"
-            className="text-sm font-semibold text-blue-600 hover:text-blue-800 hover:underline"
-          >
-            Kelola Pembayaran →
-          </Link>
-        </div>
-        <div className="p-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Belum Bayar */}
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-center gap-4">
-              <div className="w-14 h-14 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl">
-                ⏳
-              </div>
-              <div>
-                <p className="text-sm text-amber-700 font-semibold">Belum Bayar</p>
-                <p className="text-2xl font-bold text-slate-900">{totalUnpaidCount} pendaftaran</p>
-                <p className="text-sm text-amber-700 font-medium">{rupiah.format(totalUnpaidNominal)}</p>
-              </div>
-            </div>
-
-            {/* Sudah Lunas */}
-            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-5 flex items-center gap-4">
-              <div className="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl">
-                ✓
-              </div>
-              <div>
-                <p className="text-sm text-emerald-700 font-semibold">Sudah Lunas</p>
-                <p className="text-2xl font-bold text-slate-900">{totalPaidCount} pendaftaran</p>
-                <p className="text-sm text-emerald-700 font-medium">{rupiah.format(totalPaidNominal)}</p>
-              </div>
-            </div>
+      {/* BAGIAN RINGKASAN PEMBAYARAN — hanya untuk ADMIN/SUPER_ADMIN */}
+      {!isMatchAdmin && (
+        <div className="mt-8 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 flex items-center justify-between">
+            <h2 className="font-bold text-slate-800 dark:text-slate-100">Ringkasan Pembayaran</h2>
+            <Link
+              href="/admin/players"
+              className="text-sm font-semibold text-primary-700 dark:text-primary-300 hover:text-primary-900 dark:hover:text-primary-100 hover:underline"
+            >
+              Kelola Pembayaran →
+            </Link>
           </div>
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Belum Bayar */}
+              <div className="bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 rounded-2xl p-5 flex items-center gap-4">
+                <div className="w-14 h-14 bg-amber-100 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center text-2xl">
+                  ⏳
+                </div>
+                <div>
+                  <p className="text-sm text-amber-700 dark:text-amber-300 font-semibold">Belum Bayar</p>
+                  <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{totalUnpaidCount} pendaftaran</p>
+                  <p className="text-sm text-amber-700 dark:text-amber-300 font-medium">{rupiah.format(totalUnpaidNominal)}</p>
+                </div>
+              </div>
 
-          {/* Tunggakan per turnamen */}
-          {topTunggakan.length > 0 && (
-            <div className="mt-6">
-              <p className="text-sm font-semibold text-slate-600 mb-2">
-                Turnamen dengan tunggakan terbesar
-              </p>
-              <ul className="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden">
-                {topTunggakan.map((t) => (
-                  <li key={t.name} className="flex items-center justify-between px-4 py-3 bg-white text-sm">
-                    <span className="text-slate-800 font-medium truncate">{t.name}</span>
-                    <span className="flex items-center gap-4 shrink-0">
-                      <span className="text-amber-600 font-semibold">{t.unpaidCount} orang</span>
-                      <span className="text-slate-700 font-bold">{rupiah.format(t.unpaidTotal)}</span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-              <p className="text-xs text-slate-400 mt-2">
-                * Berbayar (biaya &gt; 0). DOUBLE/MIXED dihitung 1x per tim.
-              </p>
+              {/* Sudah Lunas */}
+              <div className="bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30 rounded-2xl p-5 flex items-center gap-4">
+                <div className="w-14 h-14 bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center text-2xl">
+                  ✓
+                </div>
+                <div>
+                  <p className="text-sm text-emerald-700 dark:text-emerald-300 font-semibold">Sudah Lunas</p>
+                  <p className="text-2xl font-bold text-slate-900 dark:text-slate-100">{totalPaidCount} pendaftaran</p>
+                  <p className="text-sm text-emerald-700 dark:text-emerald-300 font-medium">{rupiah.format(totalPaidNominal)}</p>
+                </div>
+              </div>
             </div>
-          )}
+
+            {/* Tunggakan per turnamen */}
+            {topTunggakan.length > 0 && (
+              <div className="mt-6">
+                <p className="text-sm font-semibold text-slate-600 dark:text-slate-400 mb-2">
+                  Turnamen dengan tunggakan terbesar
+                </p>
+                <ul className="divide-y divide-slate-100 dark:divide-slate-700 border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                  {topTunggakan.map((t) => (
+                    <li key={t.name} className="flex items-center justify-between px-4 py-3 bg-white dark:bg-slate-800 text-sm">
+                      <span className="text-slate-800 dark:text-slate-200 font-medium truncate">{t.name}</span>
+                      <span className="flex items-center gap-4 shrink-0">
+                        <span className="text-amber-600 dark:text-amber-400 font-semibold">{t.unpaidCount} orang</span>
+                        <span className="text-slate-700 dark:text-slate-300 font-bold">{rupiah.format(t.unpaidTotal)}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">
+                  * Berbayar (biaya &gt; 0). DOUBLE/MIXED dihitung 1x per tim.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* BAGIAN TABEL AKTIVITAS TERBARU */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden mt-8">
-        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
-          <h2 className="font-bold text-slate-800">Aktivitas Terbaru</h2>
+      <div className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden mt-8">
+        <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50">
+          <h2 className="font-bold text-slate-800 dark:text-slate-100">Aktivitas Terbaru</h2>
         </div>
         <div className="p-6">
           {activities.length === 0 ? (
-            <p className="text-slate-500 text-sm text-center py-8">Belum ada aktivitas terbaru hari ini.</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm text-center py-8">Belum ada aktivitas terbaru hari ini.</p>
           ) : (
-            <ul className="divide-y divide-slate-100">
+            <ul className="divide-y divide-slate-200 dark:divide-slate-700/80">
               {activities.map((item) => {
                 const config = activityConfig[item.type];
                 return (
-                  <li key={`${item.type}-${item.id}`} className="flex items-center gap-4 py-3">
+                  <li key={`${item.type}-${item.id}`} className="flex items-center gap-4 py-4">
                     <div
                       className={`w-10 h-10 shrink-0 ${config.bg} ${config.text} rounded-lg flex items-center justify-center text-lg`}
                     >
                       {config.icon}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm text-slate-800 truncate">
+                      <p className="text-sm text-slate-700 dark:text-slate-300 truncate">
                         <span className="font-medium">{config.label}:</span>{" "}
-                        <span className="text-slate-600">{item.title}</span>
+                        <span className="text-slate-600 dark:text-slate-400">{item.title}</span>
                       </p>
                     </div>
-                    <span className="text-xs text-slate-400 whitespace-nowrap shrink-0">
+                    <span className="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap shrink-0">
                       {getRelativeTime(item.createdAt)}
                     </span>
                   </li>

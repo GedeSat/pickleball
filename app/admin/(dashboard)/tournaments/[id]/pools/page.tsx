@@ -182,7 +182,7 @@ export default async function PoolManagementPage({
     <div className="max-w-6xl mx-auto space-y-8 pb-16">
       {/* Breadcrumb */}
       <Link
-        href={`/admin/tournaments/${tournamentId}/edit`}
+        href={`/admin/tournaments/${tournamentId}`}
         className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors"
       >
         <span aria-hidden className="text-base leading-none">←</span>
@@ -190,25 +190,25 @@ export default async function PoolManagementPage({
       </Link>
 
       {/* Hero: scoreboard header */}
-      <div className="relative overflow-hidden rounded-3xl bg-[#0F2A3D] text-[#ffffff] shadow-xl shadow-[#0F2A3D]/20">
+      <div className="relative overflow-hidden rounded-3xl bg-brand text-[#ffffff] shadow-xl shadow-brand/20">
         {/* garis-garis lapangan sebagai motif dekoratif */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 opacity-[0.08]"
           style={{
             backgroundImage:
-              'repeating-linear-gradient(90deg, transparent, transparent 39px, #C6E76B 39px, #C6E76B 40px)',
+              'repeating-linear-gradient(90deg, transparent, transparent 39px, #FBBF24 39px, #FBBF24 40px)',
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-[#C6E76B] opacity-10 blur-3xl"
+          className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-gold opacity-10 blur-3xl"
         />
 
         <div className="relative px-6 py-8 sm:px-10 sm:py-10">
           <div className="flex flex-wrap items-start justify-between gap-6">
             <div className="max-w-2xl">
-              <span className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,255,255,0.1)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#C6E76B] ring-1 ring-[rgba(255,255,255,0.1)]">
+              <span className="inline-flex items-center gap-2 rounded-full bg-[rgba(255,255,255,0.1)] px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#FBBF24] ring-1 ring-[rgba(255,255,255,0.1)]">
                 Manajemen Pool
               </span>
               <h1 className="mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">
@@ -217,14 +217,14 @@ export default async function PoolManagementPage({
               <p className="mt-2 text-sm leading-relaxed text-[rgba(255,255,255,0.7)] sm:text-[15px]">
                 Buat pool, tempatkan peserta setelah TM / pengundian, lalu
                 generate pertandingan. Maksimal{' '}
-                <span className="font-mono font-semibold text-[#C6E76B]">
+                <span className="font-mono font-semibold text-[#FBBF24]">
                   {tournament.poolSize}
                 </span>{' '}
                 peserta per pool.
               </p>
             </div>
 
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#1C4E67] to-[#0F2A3D] text-2xl shadow-inner ring-1 ring-[rgba(255,255,255,0.1)]">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-2 to-brand text-2xl shadow-inner ring-1 ring-[rgba(255,255,255,0.1)]">
               🏓
             </div>
           </div>

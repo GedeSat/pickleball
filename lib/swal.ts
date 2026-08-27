@@ -38,7 +38,7 @@ export function showError(message: string, title: string = 'Oops! ❌') {
     title,
     text: message,
     confirmButtonText: 'Mengerti',
-    confirmButtonColor: '#ef4444',
+    confirmButtonColor: '#dc2626',
     customClass: {
       popup: 'swal-rounded',
       confirmButton: 'swal-btn',
@@ -123,7 +123,7 @@ export async function showDeleteConfirm(
     showCancelButton: true,
     confirmButtonText: 'Ya, Hapus!',
     cancelButtonText: 'Batal',
-    confirmButtonColor: '#ef4444',
+    confirmButtonColor: '#dc2626',
     cancelButtonColor: '#94a3b8',
     reverseButtons: true,
     customClass: {

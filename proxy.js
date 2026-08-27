@@ -7,7 +7,7 @@ export default withAuth({
   callbacks: {
     authorized: ({ token }) => {
       if (!token) return false
-      return token.role === "ADMIN"
+      return token.role === "SUPER_ADMIN" || token.role === "ADMIN" || token.role === "MATCH_ADMIN"
     }
   }
 })

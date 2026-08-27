@@ -58,7 +58,7 @@ export default function EditPostForm({ post }: { post: any }) {
               name="title"
               required
               defaultValue={post.title}
-              className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
@@ -71,7 +71,7 @@ export default function EditPostForm({ post }: { post: any }) {
                 accept="image/*"
                 onChange={handleUpload}
                 disabled={isUploading}
-                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-50 file:text-blue-700 cursor-pointer"
+                className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-primary-50 file:text-primary-800 cursor-pointer"
               />
               
               {/* Preview Gambar (Lama atau Baru) */}
@@ -83,7 +83,7 @@ export default function EditPostForm({ post }: { post: any }) {
                 />
               )}
             </div>
-            {isUploading && <p className="text-sm text-blue-600 animate-pulse">Mengunggah...</p>}
+            {isUploading && <p className="text-sm text-primary-700 animate-pulse">Mengunggah...</p>}
           </div>
 
           {/* Isi Konten Artikel */}
@@ -94,7 +94,7 @@ export default function EditPostForm({ post }: { post: any }) {
               required
               rows={8}
               defaultValue={post.content}
-              className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 resize-y"
+              className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary resize-y"
             ></textarea>
           </div>
 
@@ -103,7 +103,7 @@ export default function EditPostForm({ post }: { post: any }) {
             <button
               type="submit"
               disabled={isUploading}
-              className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-500 text-white px-8 py-3 rounded-lg font-medium"
+              className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-500 text-[#ffffff] px-8 py-3 rounded-lg font-medium"
             >
               {isUploading ? "Tunggu..." : "Simpan Perubahan"}
             </button>

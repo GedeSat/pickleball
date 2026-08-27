@@ -83,3 +83,66 @@ export async function resetPayment(formData: FormData) {
 
   revalidatePath('/admin/players')
 }
+
+type BulkItem = { id: number; type: 'player' | 'team' }
+
+// 5. Bulk konfirmasi pembayaran
+export async function bulkConfirmPayment(items: BulkItem[]) {
+  const now = new Date()
+  const playerIds = items.filter(i => i.type === 'player').map(i => i.id)
+  const teamIds = items.filter(i => i.type === 'team').map(i => i.id)
+
+  if (playerIds.length > 0) {
+    await prisma.player.updateMany({
+      where: { id: { in: playerIds } },
+      data: { paymentStatus: 'PAID', paymentConfirmedAt: now }
+    })
+  }
+  if (teamIds.length > 0) {
+    await prisma.team.updateMany({
+      where: { id: { in: teamIds } },
+      data: { paymentStatus: 'PAID', paymentConfirmedAt: now }
+    })
+  }
+
+  revalidatePath('/admin/players')
+}
+
+// 6. Bulk batalkan konfirmasi
+export async function bulkResetPayment(items: BulkItem[]) {
+  const playerIds = items.filter(i => i.type === 'player').map(i => i.id)
+  const teamIds = items.filter(i => i.type === 'team').map(i => i.id)
+
+  if (playerIds.length > 0) {
+    await prisma.player.updateMany({
+      where: { id: { in: playerIds } },
+      data: { paymentStatus: 'UNPAID', paymentConfirmedAt: null }
+    })
+  }
+  if (teamIds.length > 0) {
+    await prisma.team.updateMany({
+      where: { id: { in: teamIds } },
+      data: { paymentStatus: 'UNPAID', paymentConfirmedAt: null }
+    })
+  }
+
+  revalidatePath('/admin/players')
+}
+
+// 7. Bulk hapus pemain/tim
+export async function bulkDeletePlayers(items: BulkItem[]) {
+  const playerIds = items.filter(i => i.type === 'player').map(i => i.id)
+  const teamIds = items.filter(i => i.type === 'team').map(i => i.id)
+
+  if (playerIds.length > 0) {
+    await prisma.poolMember.deleteMany({ where: { playerId: { in: playerIds } } })
+    await prisma.player.deleteMany({ where: { id: { in: playerIds } } })
+  }
+  if (teamIds.length > 0) {
+    await prisma.poolMember.deleteMany({ where: { teamId: { in: teamIds } } })
+    await prisma.player.deleteMany({ where: { teamId: { in: teamIds } } })
+    await prisma.team.deleteMany({ where: { id: { in: teamIds } } })
+  }
+
+  revalidatePath('/admin/players')
+}

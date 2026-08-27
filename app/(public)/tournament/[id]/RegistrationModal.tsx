@@ -1,12 +1,26 @@
 // app/(public)/tournament/[id]/RegistrationModal.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { registerPlayer } from "./action";
 import { showSuccess, showError } from "@/lib/swal";
 import { parseTournamentGrades, gradeToLabel } from "@/lib/tournamentGrades";
+
+type BankAccount = {
+  id: number;
+  bankName: string;
+  accountNumber: string;
+  accountName: string;
+};
+
+type PaymentMethodOption = {
+  id: number;
+  method: string;
+  label: string;
+  image: string | null;
+};
 
 type RegistrationTournament = {
   id: number;
@@ -22,10 +36,25 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
   const [matchType, setMatchType] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [proofPreview, setProofPreview] = useState<string | null>(null);
+  const [bankAccounts, setBankAccounts] = useState<BankAccount[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethodOption[]>([]);
   const router = useRouter();
 
   // Tingkat yang tersedia mengikuti setting turnamen (pilihan admin)
   const availableGrades = parseTournamentGrades(tournament.gradeOptions);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetch("/api/public/bank-accounts")
+        .then((res) => res.json())
+        .then((data) => setBankAccounts(data.data ?? []))
+        .catch(() => {});
+      fetch("/api/public/payment-methods")
+        .then((res) => res.json())
+        .then((data) => setPaymentMethods(data.data ?? []))
+        .catch(() => {});
+    }
+  }, [isOpen]);
 
   if (tournament.status !== "UPCOMING") {
     return (
@@ -116,7 +145,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="bg-yellow-400 hover:bg-yellow-500 text-[#0F172A] font-bold px-8 py-4 rounded-xl shadow-lg shadow-yellow-400/30 transition-all hover:scale-105"
+        className="bg-primary hover:bg-primary-hover text-[#ffffff] font-bold px-8 py-4 rounded-xl shadow-lg shadow-primary-800/30 transition-all hover:scale-105"
       >
         Daftar Sekarang
       </button>
@@ -134,7 +163,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
 
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Form Pendaftaran</h2>
             <p className="text-sm text-slate-500 mb-6">
-              Mendaftar untuk: <strong className="text-yellow-600">{tournament.name}</strong>
+              Mendaftar untuk: <strong className="text-primary-700">{tournament.name}</strong>
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -149,7 +178,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                     required
                     value={matchType}
                     onChange={(e) => setMatchType(e.target.value)}
-                    className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400 bg-white"
+                    className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary bg-white"
                   >
                     <option value="" disabled>-- Pilih Tipe --</option>
                     <option value="SINGLE">Single (Tunggal)</option>
@@ -163,7 +192,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                     name="grade"
                     required
                     defaultValue=""
-                    className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400 bg-white"
+                    className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary bg-white"
                   >
                     <option value="" disabled>-- Pilih Tingkat --</option>
                     {availableGrades.map((grade) => (
@@ -176,7 +205,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
               {/* Nama — kondisional berdasarkan matchType */}
               {matchType === "MIXED" ? (
                 <div className="space-y-3">
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-700 font-medium">
+                  <div className="bg-primary-50 border border-primary-200 rounded-xl p-3 text-xs text-primary-800 font-medium">
                     🏓 Double Mix: isi nama pemain putra dan putri secara terpisah
                   </div>
                   <div>
@@ -186,7 +215,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                       name="namaPutra"
                       required
                       placeholder="Nama lengkap pemain putra"
-                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400"
+                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                   <div>
@@ -196,13 +225,13 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                       name="namaPutri"
                       required
                       placeholder="Nama lengkap pemain putri"
-                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400"
+                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                 </div>
               ) : matchType === "DOUBLE" ? (
                 <div className="space-y-3">
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs text-blue-700 font-medium">
+                  <div className="bg-primary-50 border border-primary-200 rounded-xl p-3 text-xs text-primary-800 font-medium">
                     🏓 Double: isi 2 nama pemain dengan gender yang sama (sesuai pilihan Gender di bawah)
                   </div>
                   <div>
@@ -212,7 +241,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                       name="namaPemain1"
                       required
                       placeholder="Nama lengkap pemain pertama"
-                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400"
+                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                   <div>
@@ -222,7 +251,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                       name="namaPemain2"
                       required
                       placeholder="Nama lengkap pemain kedua"
-                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400"
+                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                 </div>
@@ -235,7 +264,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                     type="text"
                     name="fullName"
                     required
-                    className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400"
+                    className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
               )}
@@ -248,7 +277,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                     name="gender"
                     required
                     defaultValue=""
-                    className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400 bg-white"
+                    className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary bg-white"
                   >
                     <option value="" disabled>-- Pilih Gender --</option>
                     <option value="MALE">Putra (Male)</option>
@@ -268,7 +297,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                   type="text"
                   name="schoolName"
                   required
-                  className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
@@ -278,16 +307,16 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                   type="tel"
                   name="phoneNumber"
                   required
-                  className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
 
               {/* Pembayaran — hanya muncul jika turnamen berbayar */}
               {tournament.registrationFee > 0 && (
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 space-y-3">
+                <div className="bg-primary-50 border border-primary-200 rounded-xl p-4 space-y-3">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-semibold text-slate-700">Biaya Pendaftaran</p>
-                    <p className="font-bold text-yellow-700">
+                    <p className="font-bold text-primary-800">
                       Rp {tournament.registrationFee.toLocaleString('id-ID')}
                     </p>
                   </div>
@@ -298,13 +327,12 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                       required
                       value={paymentMethod}
                       onChange={(e) => setPaymentMethod(e.target.value)}
-                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-yellow-400 bg-white"
+                      className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary bg-white"
                     >
                       <option value="" disabled>-- Pilih Metode --</option>
-                      <option value="TRANSFER">Transfer Bank</option>
-                      <option value="QRIS">QRIS</option>
-                      <option value="EWALLET">E-Wallet</option>
-                      <option value="VENUE">Bayar di Tempat (Venue)</option>
+                      {paymentMethods.map((pm) => (
+                        <option key={pm.id} value={pm.method}>{pm.label}</option>
+                      ))}
                     </select>
                   </div>
 
@@ -319,7 +347,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                         required
                         accept="image/jpeg,image/png,image/webp"
                         onChange={handleProofChange}
-                        className="w-full text-sm p-2.5 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-yellow-400 file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border-0 file:bg-yellow-400 file:text-[#0F172A] file:font-semibold file:text-sm file:cursor-pointer"
+                        className="w-full text-sm p-2.5 border border-slate-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-primary file:mr-3 file:px-3 file:py-1.5 file:rounded-lg file:border-0 file:bg-primary file:text-[#ffffff] file:font-semibold file:text-sm file:cursor-pointer"
                       />
                       {proofPreview && (
                         <img
@@ -334,6 +362,38 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
                     </div>
                   )}
 
+                  {paymentMethod === "TRANSFER" && bankAccounts.length > 0 && (
+                    <div className="space-y-2">
+                      <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Rekening Tujuan Transfer:</p>
+                      {bankAccounts.map((acc) => (
+                        <div
+                          key={acc.id}
+                          className="flex items-center justify-between bg-white border border-slate-200 rounded-xl px-4 py-3"
+                        >
+                          <div>
+                            <p className="font-bold text-slate-800">{acc.bankName}</p>
+                            <p className="font-mono text-sm text-slate-600 tracking-wider">{acc.accountNumber}</p>
+                          </div>
+                          <p className="text-sm text-slate-500">{acc.accountName}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {paymentMethod && paymentMethod !== "TRANSFER" && paymentMethod !== "VENUE" && (() => {
+                    const selectedPM = paymentMethods.find((pm) => pm.method === paymentMethod);
+                    if (!selectedPM?.image) return null;
+                    return (
+                      <div className="flex justify-center">
+                        <img
+                          src={selectedPM.image}
+                          alt={selectedPM.label}
+                          className="max-w-[250px] max-h-[250px] object-contain rounded-xl border border-slate-200"
+                        />
+                      </div>
+                    );
+                  })()}
+
                   <p className="text-xs text-slate-500">
                     Pembayaran dikonfirmasi oleh panitia setelah bukti transfer diperiksa.
                   </p>
@@ -343,7 +403,7 @@ export default function RegistrationModal({ tournament }: { tournament: Registra
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-500 text-white font-bold py-3 rounded-xl transition-colors mt-4"
+                className="w-full bg-slate-900 hover:bg-slate-800 disabled:bg-slate-500 text-[#ffffff] font-bold py-3 rounded-xl transition-colors mt-4"
               >
                 {isSubmitting ? "Memproses..." : "Kirim Pendaftaran"}
               </button>

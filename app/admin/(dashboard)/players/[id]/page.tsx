@@ -21,7 +21,7 @@ export default async function EditPlayerPage({ params }: { params: Promise<{ id:
         </div>
         <h2 className="text-2xl font-extrabold text-slate-800 mb-2">Pemain Tidak Ditemukan</h2>
         <p className="text-slate-500 mb-8 leading-relaxed">Waduh, data pemain ini sepertinya sudah dihapus atau ID-nya salah ketik.</p>
-        <Link href="/admin/players" className="inline-flex items-center justify-center bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-slate-800 font-medium transition-all hover:shadow-lg hover:-translate-y-0.5">
+        <Link href="/admin/players" className="inline-flex items-center justify-center bg-slate-900 text-[#ffffff] px-6 py-3 rounded-xl hover:bg-slate-800 font-medium transition-all hover:shadow-lg hover:-translate-y-0.5">
           &larr; Kembali ke Daftar
         </Link>
       </div>
@@ -35,19 +35,19 @@ export default async function EditPlayerPage({ params }: { params: Promise<{ id:
       {/* Header Section */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-[#3B82F6] to-[#4F46E5] rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-blue-500/30">
+          <div className="w-14 h-14 bg-gradient-to-br from-primary to-amber-500 rounded-2xl flex items-center justify-center text-[#ffffff] text-2xl shadow-lg shadow-primary-800/30">
             🎾
           </div>
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Edit Data Pemain</h1>
             <p className="text-slate-500 mt-1">
-              Mengubah data <span className="font-semibold text-blue-600">{player.fullName}</span>
+              Mengubah data <span className="font-semibold text-primary-700">{player.fullName}</span>
             </p>
           </div>
         </div>
         <Link 
           href="/admin/players" 
-          className="inline-flex items-center px-5 py-2.5 bg-slate-500 text-white rounded-xl hover:bg-slate-600 font-medium transition-all shadow-sm"
+          className="inline-flex items-center px-5 py-2.5 bg-slate-500 text-[#ffffff] rounded-xl hover:bg-slate-600 font-medium transition-all shadow-sm"
         >
           ← Kembali
         </Link>
@@ -69,7 +69,7 @@ export default async function EditPlayerPage({ params }: { params: Promise<{ id:
               defaultValue={player.fullName} 
               required 
               placeholder="Masukkan nama lengkap..."
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none text-slate-700 font-medium" 
+              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none text-slate-700 font-medium" 
             />
           </div>
 
@@ -79,7 +79,7 @@ export default async function EditPlayerPage({ params }: { params: Promise<{ id:
             <select
               name="grade"
               defaultValue={player.grade}
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none text-slate-700 font-medium"
+              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none text-slate-700 font-medium"
             >
               {(ALL_TOURNAMENT_GRADES as readonly string[]).includes(player.grade) ? null : (
                 <option value={player.grade}>{gradeToLabel(player.grade)}</option>
@@ -96,7 +96,7 @@ export default async function EditPlayerPage({ params }: { params: Promise<{ id:
             <select
               name="gender"
               defaultValue={player.gender}
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none text-slate-700 font-medium"
+              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none text-slate-700 font-medium"
             >
               <option value="MALE">Putra (MALE)</option>
               <option value="FEMALE">Putri (FEMALE)</option>
@@ -109,7 +109,7 @@ export default async function EditPlayerPage({ params }: { params: Promise<{ id:
             <select
               name="matchType"
               defaultValue={player.matchType}
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none text-slate-700 font-medium"
+              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none text-slate-700 font-medium"
             >
               <option value="SINGLE">SINGLE</option>
               <option value="DOUBLE">DOUBLE</option>
@@ -126,7 +126,7 @@ export default async function EditPlayerPage({ params }: { params: Promise<{ id:
               defaultValue={player.schoolName} 
               required 
               placeholder="Asal sekolah atau klub..."
-              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none text-slate-700 font-medium" 
+              className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none text-slate-700 font-medium" 
             />
           </div>
 
@@ -151,7 +151,7 @@ export default async function EditPlayerPage({ params }: { params: Promise<{ id:
         <div className="pt-8 mt-4 border-t border-slate-100">
           <button 
             type="submit" 
-            className="w-full bg-gradient-to-r from-[#2563EB] to-[#4F46E5] hover:from-[#1D4ED8] hover:to-[#4338CA] text-white font-bold py-4 rounded-2xl shadow-xl shadow-blue-500/30 transition-all hover:-translate-y-1 active:scale-[0.98] flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-r from-primary to-amber-500 hover:from-primary-hover hover:to-amber-600 text-[#ffffff] font-bold py-4 rounded-2xl shadow-xl shadow-primary-800/30 transition-all hover:-translate-y-1 active:scale-[0.98] flex items-center justify-center gap-2"
           >
             <span>Simpan Perubahan</span>
             <span className="text-xl">✨</span>

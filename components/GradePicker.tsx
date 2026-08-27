@@ -74,15 +74,15 @@ export default function GradePicker({
               key={grade}
               className={`flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-all text-sm font-medium ${
                 checked
-                  ? "bg-blue-50 border-blue-300 text-blue-700"
-                  : "bg-white border-slate-200 text-slate-600 hover:border-blue-300"
+                  ? "bg-primary-50 border-primary text-primary-700"
+                  : "bg-white border-slate-200 text-slate-600 hover:border-primary"
               }`}
             >
               <input
                 type="checkbox"
                 checked={checked}
                 onChange={() => toggle(normalized)}
-                className="accent-blue-600 w-4 h-4"
+                className="accent-primary w-4 h-4"
               />
               {gradeToLabel(grade)}
             </label>
@@ -103,12 +103,12 @@ export default function GradePicker({
             }
           }}
           placeholder="Tingkat lain... contoh: U12, U22 (pisahkan dengan koma)"
-          className="flex-1 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-sm"
+          className="flex-1 p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all text-sm"
         />
         <button
           type="button"
           onClick={() => addCustom(customValue)}
-          className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-white rounded-lg text-sm font-medium transition-colors"
+          className="px-4 py-2 bg-slate-700 hover:bg-slate-800 text-[#ffffff] rounded-lg text-sm font-medium transition-colors"
         >
           Tambah
         </button>
@@ -120,14 +120,14 @@ export default function GradePicker({
           {selected.map((grade) => (
             <span
               key={grade}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-600 text-white text-xs font-semibold"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-[#ffffff] text-xs font-semibold"
             >
               {gradeToLabel(grade)}
               <button
                 type="button"
                 onClick={() => toggle(grade)}
                 aria-label={`Hapus ${grade}`}
-                className="hover:text-blue-200 transition-colors"
+                className="hover:text-amber-200 transition-colors"
               >
                 ✕
               </button>

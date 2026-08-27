@@ -1,7 +1,9 @@
-import { NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises"; // 🔥 Tambahkan mkdir di sini
 import path from "path";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+
+const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
+const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
 export async function POST(req: Request) {
   try {
@@ -12,13 +14,21 @@ export async function POST(req: Request) {
       return errorResponse("Tidak ada file yang diunggah ⚠️", 400, "BAD_REQUEST");
     }
 
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return errorResponse("Hanya file gambar JPG/PNG/WebP yang diizinkan", 400, "BAD_REQUEST");
+    }
+
+    if (file.size > MAX_SIZE) {
+      return errorResponse("Ukuran file maksimal 5MB", 400, "BAD_REQUEST");
+    }
+
     // 1. Ubah file menjadi format Buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     // 2. Buat nama file unik
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const filename = `${uniqueSuffix}-${file.name.replace(/\s+/g, "-")}`;
+    const filename = `${uniqueSuffix}-${file.name.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9._-]/g, "")}`;
 
     // 3. Tentukan lokasi penyimpanan
     const uploadDir = path.join(process.cwd(), "public", "uploads");

@@ -145,8 +145,8 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
           type: 'POOL',
           groupOrPoolName: pool.label ?? '',
           category: pool.categoryKey ?? '',
-          player1: memberName(m.member1) || 'TBD',
-          player2: memberName(m.member2) || 'TBD',
+          player1: memberName(m.member1) || 'Menunggu',
+          player2: memberName(m.member2) || 'Menunggu',
           score1: m.score1 ?? null,
           score2: m.score2 ?? null,
           status: m.status ?? 'SCHEDULED',
@@ -166,8 +166,8 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
           type: 'GROUP',
           groupOrPoolName: group.name ?? '',
           category: group.category ?? '',
-          player1: m.player1Name || 'TBD',
-          player2: m.player2Name || 'TBD',
+          player1: m.player1Name || 'Menunggu',
+          player2: m.player2Name || 'Menunggu',
           score1: m.score1 ?? null,
           score2: m.score2 ?? null,
           status: m.status ?? 'SCHEDULED',
@@ -182,10 +182,10 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
       matches.push({
         id: k.id,
         type: 'KNOCKOUT',
-        groupOrPoolName: `Knockout R${k.round ?? ''}`,
+        groupOrPoolName: `Gugur Babak ${k.round ?? ''}`,
         category: k.category ?? '',
-        player1: k.player1Name || 'TBD',
-        player2: k.player2Name || 'TBD',
+        player1: k.player1Name || 'Menunggu',
+        player2: k.player2Name || 'Menunggu',
         score1: k.score1 ?? null,
         score2: k.score2 ?? null,
         status: k.status ?? 'SCHEDULED',
@@ -292,14 +292,14 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
   return (
     <div className="space-y-6">
       {/* TABS & SEARCH HEADER */}
-      <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col xl:flex-row items-center justify-between gap-4">
-        <div className="flex items-center bg-slate-100 p-1 rounded-xl w-full xl:w-auto">
+      <div className="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col xl:flex-row items-center justify-between gap-4">
+        <div className="flex items-center bg-slate-100 dark:bg-slate-700 p-1 rounded-xl w-full xl:w-auto">
           <button
             onClick={() => setActiveTab('SCHEDULE')}
             className={`px-5 py-2 rounded-lg text-sm font-bold transition-all w-1/2 xl:w-auto ${
               activeTab === 'SCHEDULE'
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-500 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
             }`}
           >
             📅 Jadwal ({filteredMatches.length})
@@ -308,8 +308,8 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
             onClick={() => setActiveTab('STANDINGS')}
             className={`px-5 py-2 rounded-lg text-sm font-bold transition-all w-1/2 xl:w-auto ${
               activeTab === 'STANDINGS'
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-500 hover:text-slate-900'
+                ? 'bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 shadow-sm'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
             }`}
           >
             📊 Klasemen ({filteredStandings.length})
@@ -325,7 +325,7 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
                 placeholder="Cari pemain/pool/kategori..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full pl-8 pr-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-primary text-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"
               />
               <span className="absolute left-3 top-2.5 text-slate-400 text-xs">🔍</span>
             </div>
@@ -334,7 +334,7 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
           <select
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
-            className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex-1 md:flex-none"
+            className="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary flex-1 md:flex-none"
           >
             <option value="ALL">Semua Kategori</option>
             {/* Pakai getDisplayCategory() agar double_mix tertangani dengan baik */}
@@ -346,7 +346,7 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
           <select
             value={poolFilter}
             onChange={(e) => setPoolFilter(e.target.value)}
-            className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex-1 md:flex-none"
+            className="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary flex-1 md:flex-none"
           >
             <option value="ALL">Semua Pool</option>
             {uniquePools.map((poolName) => (
@@ -358,7 +358,7 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 flex-1 md:flex-none"
+              className="px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-600 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary flex-1 md:flex-none"
             >
               <option value="ALL">Semua Status</option>
               <option value="SCHEDULED">Mendatang</option>
@@ -373,22 +373,22 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
       {activeTab === 'SCHEDULE' && (
         <div className="space-y-8">
           {Object.keys(groupedMatches).length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 text-center text-slate-500 border border-slate-200">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 text-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
               <span className="text-4xl block mb-2">🏸</span>
-              <p className="font-semibold text-slate-700">Belum Ada Pertandingan Ditemukan</p>
+              <p className="font-semibold text-slate-700 dark:text-slate-200">Belum Ada Pertandingan Ditemukan</p>
               <p className="text-xs text-slate-400 mt-1">Jadwal pertandingan tidak ditemukan untuk filter ini.</p>
             </div>
           ) : (
             Object.keys(groupedMatches).map((category) => (
               <div key={category} className="space-y-4">
                 {/* Header Kategori */}
-                <div className="flex items-center gap-3 pb-2 border-b-2 border-indigo-100">
+                <div className="flex items-center gap-3 pb-2 border-b-2 border-primary-100">
                   <span className="text-2xl">🏆</span>
-                  <h2 className="text-xl font-black text-slate-800 uppercase tracking-wide">
+                  <h2 className="text-xl font-black text-slate-800 dark:text-slate-100 uppercase tracking-wide">
                     {/* Header juga menggunakan getDisplayCategory() */}
                     Kategori: {getDisplayCategory(category)}
                   </h2>
-                  <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold ml-auto">
+                  <span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-xs font-bold ml-auto">
                     {groupedMatches[category].length} Pertandingan
                   </span>
                 </div>
@@ -398,11 +398,11 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
                   {groupedMatches[category].map((m) => (
                     <div
                       key={`${m.type}-${m.id}`}
-                      className="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between"
+                      className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm p-5 hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between"
                     >
                       <div className="flex items-center justify-between gap-2 mb-3">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-extrabold uppercase line-clamp-1 ${
-                          m.type === 'KNOCKOUT' ? 'bg-purple-50 text-purple-700 border border-purple-100' : 'bg-indigo-50 text-indigo-700'
+                          m.type === 'KNOCKOUT' ? 'bg-purple-50 text-purple-700 border border-purple-100' : 'bg-primary-50 text-primary-700'
                         }`}>
                           {m.groupOrPoolName}
                         </span>
@@ -411,35 +411,35 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
                             ? 'bg-emerald-100 text-emerald-700'
                             : m.status === 'ONGOING'
                             ? 'bg-amber-100 text-amber-700 animate-pulse'
-                            : 'bg-slate-100 text-slate-600'
+                            : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                         }`}>
                           {m.status === 'DONE' ? 'Selesai ✓' : m.status === 'ONGOING' ? 'Sedang Main 🎾' : 'Terjadwal ⏳'}
                         </span>
                       </div>
 
-                      <div className="bg-slate-50 p-4 rounded-xl space-y-3 mb-3">
+                      <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl space-y-3 mb-3">
                         <div className="flex items-center justify-between">
-                          <span className={`font-bold text-sm truncate flex-1 ${m.winner === m.player1 ? 'text-emerald-700' : 'text-slate-800'}`}>
+                          <span className={`font-bold text-sm truncate flex-1 ${m.winner === m.player1 ? 'text-emerald-700' : 'text-slate-800 dark:text-slate-200'}`}>
                             {m.player1}
                           </span>
-                          <span className="font-black text-slate-900 ml-4 px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-sm">
+                          <span className="font-black text-slate-900 dark:text-slate-100 ml-4 px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg text-sm">
                             {m.score1 !== null ? m.score1 : '-'}
                           </span>
                         </div>
-                        <div className="border-t border-slate-200/60 my-1"></div>
+                        <div className="border-t border-slate-200/60 dark:border-slate-600 my-1"></div>
                         <div className="flex items-center justify-between">
-                          <span className={`font-bold text-sm truncate flex-1 ${m.winner === m.player2 ? 'text-emerald-700' : 'text-slate-800'}`}>
+                          <span className={`font-bold text-sm truncate flex-1 ${m.winner === m.player2 ? 'text-emerald-700' : 'text-slate-800 dark:text-slate-200'}`}>
                             {m.player2}
                           </span>
-                          <span className="font-black text-slate-900 ml-4 px-2.5 py-1 bg-white border border-slate-200 rounded-lg text-sm">
+                          <span className="font-black text-slate-900 dark:text-slate-100 ml-4 px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 rounded-lg text-sm">
                             {m.score2 !== null ? m.score2 : '-'}
                           </span>
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between text-xs text-slate-400 font-medium">
-                        <span>📍 {m.court ? `Lap. ${m.court}` : 'Lap. TBD'}</span>
-                        <span>🕒 {m.startTime || 'Waktu TBD'}</span>
+                        <span>📍 {m.court ? `Lap. ${m.court}` : 'Lap. Belum Ada'}</span>
+                        <span>🕒 {m.startTime || 'Waktu Belum Ada'}</span>
                       </div>
                     </div>
                   ))}
@@ -454,22 +454,22 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
       {activeTab === 'STANDINGS' && (
         <div className="space-y-8">
           {Object.keys(groupedStandings).length === 0 ? (
-            <div className="bg-white rounded-2xl p-12 text-center text-slate-500 border border-slate-200">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 text-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
               <span className="text-4xl block mb-2">📊</span>
-              <p className="font-semibold text-slate-700">Belum Ada Klasemen Pool</p>
+              <p className="font-semibold text-slate-700 dark:text-slate-200">Belum Ada Klasemen Pool</p>
               <p className="text-xs text-slate-400 mt-1">Tidak ada klasemen yang sesuai dengan filter saat ini.</p>
             </div>
           ) : (
             Object.keys(groupedStandings).map((category) => (
               <div key={category} className="space-y-4">
                 {/* Header Kategori untuk Klasemen */}
-                <div className="flex items-center gap-3 pb-2 border-b-2 border-indigo-100">
+                <div className="flex items-center gap-3 pb-2 border-b-2 border-primary-100">
                   <span className="text-2xl">🏅</span>
-                  <h2 className="text-xl font-black text-slate-800 uppercase tracking-wide">
+                  <h2 className="text-xl font-black text-slate-800 dark:text-slate-100 uppercase tracking-wide">
                     {/* Header Klasemen juga menggunakan getDisplayCategory() */}
                     Klasemen: {getDisplayCategory(category)}
                   </h2>
-                  <span className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold ml-auto">
+                  <span className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-xs font-bold ml-auto">
                     {groupedStandings[category].length} Pool
                   </span>
                 </div>
@@ -477,15 +477,15 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
                 {/* Grid Klasemen per Kategori */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {groupedStandings[category].map((pool, idx) => (
-                    <div key={idx} className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                      <div className="bg-gradient-to-r from-[#0F172A] to-[#1E1B4B] px-5 py-3 text-white flex justify-between items-center">
+                    <div key={idx} className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                      <div className="bg-gradient-to-r from-brand to-brand-2 px-5 py-3 text-[#ffffff] flex justify-between items-center">
                         <h3 className="font-bold text-base">{pool.poolName}</h3>
                       </div>
 
                       <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left whitespace-nowrap">
                           <thead>
-                            <tr className="bg-slate-50 text-slate-400 text-[11px] uppercase font-bold tracking-wider border-b border-slate-100">
+                            <tr className="bg-slate-50 dark:bg-slate-900 text-slate-400 text-[11px] uppercase font-bold tracking-wider border-b border-slate-100 dark:border-slate-700">
                               <th className="py-2.5 px-4 w-10">#</th>
                               <th className="py-2.5 px-4">Nama Peserta / Tim</th>
                               <th className="py-2.5 px-2 text-center w-12" title="Menang">M</th>
@@ -493,13 +493,13 @@ export default function ScheduleClient({ tournament }: { tournament: TournamentL
                               <th className="py-2.5 px-3 text-center w-16" title="Selisih Poin">PD</th>
                             </tr>
                           </thead>
-                          <tbody className="divide-y divide-slate-100">
+                          <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                             {pool.members.map((m, i) => (
-                              <tr key={i} className={m.rank === 1 ? 'bg-yellow-50/70 font-semibold' : ''}>
-                                <td className="py-3 px-4 font-bold text-slate-500">
+                              <tr key={i} className={m.rank === 1 ? 'bg-gold/20 font-semibold' : ''}>
+                                <td className="py-3 px-4 font-bold text-slate-500 dark:text-slate-400">
                                   {m.rank === 1 ? '🥇' : m.rank === 2 ? '🥈' : m.rank === 3 ? '🥉' : m.rank || i + 1}
                                 </td>
-                                <td className="py-3 px-4 text-slate-800 font-bold">{m.name}</td>
+                                <td className="py-3 px-4 text-slate-800 dark:text-slate-200 font-bold">{m.name}</td>
                                 <td className="py-3 px-2 text-center text-emerald-600 font-bold">{m.wins}</td>
                                 <td className="py-3 px-2 text-center text-red-500 font-bold">{m.losses}</td>
                                 <td className={`py-3 px-3 text-center font-bold ${m.pointDiff > 0 ? 'text-emerald-600' : m.pointDiff < 0 ? 'text-red-500' : 'text-slate-400'}`}>

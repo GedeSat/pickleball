@@ -1,10 +1,8 @@
 import React from 'react'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import RegistrationForm from './RegistrationForm'
 import Link from 'next/link'
 import { parseTournamentGrades } from '@/lib/tournamentGrades'
-
-const prisma = new PrismaClient()
 
 export default async function RegisterTeamPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params
@@ -36,14 +34,14 @@ export default async function RegisterTeamPage({ params }: { params: Promise<{ i
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center gap-4 mb-6">
-        <Link href={`/admin/tournaments/${tournamentId}/edit`} className="text-slate-500 hover:text-slate-900 transition-colors">
+        <Link href={`/admin/tournaments/${tournamentId}`} className="text-slate-500 hover:text-slate-900 transition-colors">
           ← Kembali ke Detail Turnamen
         </Link>
       </div>
 
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-[#6366F1] to-[#2563EB] rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-blue-500/30">
+          <div className="w-14 h-14 bg-gradient-to-br from-primary to-amber-500 rounded-2xl flex items-center justify-center text-[#ffffff] text-2xl shadow-lg shadow-primary-800/30">
             🤝
           </div>
           <div>

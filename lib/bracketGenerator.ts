@@ -52,9 +52,9 @@ export function getSeeding(numPlayers: number): number[] {
 export function getRoundText(bracketSize: number, round: number): string {
   const matchesInRound = bracketSize / Math.pow(2, round + 1);
   if (matchesInRound === 1) return "Final";
-  if (matchesInRound === 2) return "Semi Final";
-  if (matchesInRound === 4) return "Perempat Final";
-  return `Ronde ${round + 1}`;
+  if (matchesInRound === 2) return "Semifinal";
+  if (matchesInRound === 4) return "Perempatfinal";
+  return `Babak ${round + 1}`;
 }
 
 // ----------------------------------------------------------------

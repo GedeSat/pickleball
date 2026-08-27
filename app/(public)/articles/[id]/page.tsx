@@ -44,13 +44,13 @@ export default async function ArticleDetailPage({
   });
 
   return (
-    <main className="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-900 py-12 px-4 sm:px-6 lg:px-8">
       {/* Container Utama Artikel */}
-      <article className="max-w-4xl mx-auto bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+      <article className="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden">
         
         {/* Gambar Cover (Menyatu dengan batas atas container) */}
         {post.image && (
-          <div className="w-full h-[300px] md:h-[450px] relative bg-slate-100">
+          <div className="w-full h-[300px] md:h-[450px] relative bg-slate-100 dark:bg-slate-700">
             <img 
               src={post.image} 
               alt={post.title} 
@@ -65,24 +65,24 @@ export default async function ArticleDetailPage({
           {/* Tombol Kembali */}
           <Link 
             href="/articles" 
-            className="inline-flex items-center text-sm font-semibold text-yellow-600 hover:text-yellow-700 mb-8 transition-colors"
+            className="inline-flex items-center text-sm font-semibold text-primary-700 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 mb-8 transition-colors"
           >
             &larr; Kembali ke Daftar Artikel
           </Link>
 
           {/* Header Artikel (Judul & Penulis) */}
           <header className="mb-10">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-slate-100 mb-6 leading-tight">
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500">
+            <div className="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
               <div className="flex items-center gap-2">
                 {/* Avatar Dummy Sederhana */}
-                <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-white font-bold">
+                <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-[#ffffff] font-bold">
                   {post.author?.name ? post.author.name.charAt(0).toUpperCase() : 'A'}
                 </div>
-                <strong className="text-slate-800">{post.author?.name || "Admin"}</strong>
+                <strong className="text-slate-800 dark:text-slate-200">{post.author?.name || "Admin"}</strong>
               </div>
               <span>•</span>
               <time dateTime={post.createdAt.toISOString()}>
@@ -94,7 +94,7 @@ export default async function ArticleDetailPage({
           </header>
 
           {/* Teks Isi Konten */}
-          <div className="prose prose-lg prose-slate max-w-none whitespace-pre-wrap text-slate-700 leading-relaxed border-b border-slate-100 pb-16 mb-12">
+          <div className="prose prose-lg prose-slate max-w-none whitespace-pre-wrap text-slate-700 dark:text-slate-300 leading-relaxed border-b border-slate-100 dark:border-slate-700 pb-16 mb-12 dark:prose-invert">
             {post.content}
           </div>
 
@@ -104,12 +104,12 @@ export default async function ArticleDetailPage({
             {prevPost ? (
               <Link 
                 href={`/articles/${prevPost.id}`} 
-                className="group p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:border-yellow-400 hover:shadow-md transition-all flex flex-col items-start text-left"
+                className="group p-6 rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:border-primary hover:shadow-md transition-all flex flex-col items-start text-left"
               >
-                <span className="text-xs font-bold text-slate-400 group-hover:text-yellow-600 mb-2 uppercase tracking-wider">
+                <span className="text-xs font-bold text-slate-400 group-hover:text-primary-700 dark:group-hover:text-primary-300 mb-2 uppercase tracking-wider">
                   &larr; Artikel Sebelumnya
                 </span>
-                <span className="font-semibold text-slate-900 line-clamp-2">
+                <span className="font-semibold text-slate-900 dark:text-slate-100 line-clamp-2">
                   {prevPost.title}
                 </span>
               </Link>
@@ -121,12 +121,12 @@ export default async function ArticleDetailPage({
             {nextPost ? (
               <Link 
                 href={`/articles/${nextPost.id}`} 
-                className="group p-6 rounded-2xl border border-slate-100 bg-slate-50 hover:bg-white hover:border-yellow-400 hover:shadow-md transition-all flex flex-col items-end text-right"
+                className="group p-6 rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-700 hover:bg-white dark:hover:bg-slate-800 hover:border-primary hover:shadow-md transition-all flex flex-col items-end text-right"
               >
-                <span className="text-xs font-bold text-slate-400 group-hover:text-yellow-600 mb-2 uppercase tracking-wider">
+                <span className="text-xs font-bold text-slate-400 group-hover:text-primary-700 dark:group-hover:text-primary-300 mb-2 uppercase tracking-wider">
                   Artikel Selanjutnya &rarr;
                 </span>
-                <span className="font-semibold text-slate-900 line-clamp-2">
+                <span className="font-semibold text-slate-900 dark:text-slate-100 line-clamp-2">
                   {nextPost.title}
                 </span>
               </Link>

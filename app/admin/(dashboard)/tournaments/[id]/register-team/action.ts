@@ -1,11 +1,10 @@
 'use server'
 
-import { PrismaClient, MatchType, Gender } from '@prisma/client'
+import { MatchType, Gender } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { buildCategoryInfo, validateGenderForMatchType } from '@/lib/tournamentCategory'
-
-const prisma = new PrismaClient()
 
 export async function processTeamRegistration(prevState: unknown, formData: FormData) {
   let tournamentId: number = 0;

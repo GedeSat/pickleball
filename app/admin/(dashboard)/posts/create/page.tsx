@@ -43,25 +43,25 @@ export default function CreatePostPage() {
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-slate-700">Judul Artikel *</label>
-            <input type="text" name="title" required className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" />
+            <input type="text" name="title" required className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary" />
           </div>
 
           <div className="space-y-3">
             <label className="text-sm font-semibold text-slate-700">Gambar Cover</label>
             <div className="flex flex-col sm:flex-row gap-6">
-              <input type="file" accept="image/*" onChange={handleUpload} disabled={isUploading} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-blue-50 file:text-blue-700 cursor-pointer" />
+              <input type="file" accept="image/*" onChange={handleUpload} disabled={isUploading} className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-primary-50 file:text-primary-800 cursor-pointer" />
               {imageUrl && <img src={imageUrl} alt="Preview" className="w-32 h-32 object-cover rounded-xl border" />}
             </div>
-            {isUploading && <p className="text-sm text-blue-600 animate-pulse">Mengunggah...</p>}
+            {isUploading && <p className="text-sm text-primary-700 animate-pulse">Mengunggah...</p>}
           </div>
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-slate-700">Isi Konten *</label>
-            <textarea name="content" required rows={8} className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 resize-y"></textarea>
+            <textarea name="content" required rows={8} className="w-full p-3 border border-slate-300 rounded-lg outline-none focus:ring-2 focus:ring-primary resize-y"></textarea>
           </div>
 
           <div className="flex justify-end pt-4 border-t border-slate-100">
-            <button type="submit" disabled={isUploading} className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-500 text-white px-8 py-3 rounded-lg font-medium">
+            <button type="submit" disabled={isUploading} className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-500 text-[#ffffff] px-8 py-3 rounded-lg font-medium">
               {isUploading ? "Tunggu..." : "Terbitkan Artikel"}
             </button>
           </div>

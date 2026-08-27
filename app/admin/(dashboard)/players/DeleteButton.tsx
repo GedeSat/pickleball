@@ -11,7 +11,7 @@ export default function DeleteButton({ playerId }: { playerId: number }) {
   return (
     <button 
       type="button"
-      className="px-4 py-2 bg-red-50 text-red-600 hover:bg-red-600 hover:text-white hover:shadow-lg hover:shadow-red-500/30 font-semibold rounded-xl text-sm transition-all active:scale-95 flex items-center gap-1"
+      className="px-4 py-2 bg-red-50 text-red-600 hover:bg-danger hover:text-[#ffffff] hover:shadow-lg hover:shadow-red-500/30 font-semibold rounded-xl text-sm transition-all active:scale-95 flex items-center gap-1"
       onClick={async () => {
         const confirmed = await showDeleteConfirm('Yakin ingin menghapus pemain ini? Data yang dihapus tidak bisa dikembalikan.');
         if (confirmed) {

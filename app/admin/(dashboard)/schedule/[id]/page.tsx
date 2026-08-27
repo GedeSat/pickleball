@@ -2,8 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import ScheduleEditor from "./ScheduleEditor";
+import ScheduleExportButtons from "./ScheduleExportButtons";
 
-export const dynamic = 'force-dynamic';
 
 export default async function AdminScheduleEditorPage({
   params,
@@ -103,7 +103,7 @@ export default async function AdminScheduleEditorPage({
     status: k.status,
     player1Name: k.player1Name,
     player2Name: k.player2Name,
-    groupName: `Knockout ${k.roundText}`,
+    groupName: `Gugur ${k.roundText}`,
     category: k.category,
   }));
 
@@ -115,7 +115,7 @@ export default async function AdminScheduleEditorPage({
         <div>
           <Link
             href="/admin/schedule"
-            className="text-sm text-blue-600 hover:underline font-semibold inline-block mb-2"
+            className="text-sm text-primary-700 hover:underline font-semibold inline-block mb-2"
           >
             &larr; Kembali ke Daftar Turnamen
           </Link>
@@ -123,18 +123,21 @@ export default async function AdminScheduleEditorPage({
             📅 Atur Jadwal — {tournament.name}
           </h1>
           <p className="text-slate-500 text-sm mt-1">
-            {matches.length} pertandingan (pool + knockout). Isi nomor lapangan & waktu,
+            {matches.length} pertandingan (pool + gugur). Isi nomor lapangan & waktu,
             lalu klik Simpan.
           </p>
         </div>
-        <a
-          href={`/tournament/${tournamentId}/schedule`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 rounded-xl px-4 py-2.5"
-        >
-          Lihat Halaman Publik ↗
-        </a>
+        <div className="flex items-center gap-3 flex-wrap">
+          <ScheduleExportButtons tournamentName={tournament.name} matches={matches} />
+          <a
+            href={`/tournament/${tournamentId}/schedule`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-semibold text-slate-600 hover:text-slate-900 bg-white border border-slate-200 rounded-xl px-4 py-2.5"
+          >
+            Lihat Halaman Publik ↗
+          </a>
+        </div>
       </div>
 
       <ScheduleEditor tournamentId={tournamentId} matches={matches} />

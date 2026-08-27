@@ -2,7 +2,6 @@ import React from "react";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 
-export const dynamic = 'force-dynamic';
 
 const STATUS_LABEL: Record<string, string> = {
   DRAFT: "Draft",
@@ -30,14 +29,14 @@ export default async function AdminSchedulePage() {
     <div className="max-w-5xl mx-auto space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-amber-500/30">
+          <div className="w-14 h-14 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-amber-500/30">
             📅
           </div>
           <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight">
               Jadwal Pertandingan
             </h1>
-            <p className="text-slate-500 text-sm mt-1">
+            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
               Atur nomor lapangan & waktu tanding. Pilih turnamen untuk mulai.
             </p>
           </div>
@@ -46,20 +45,20 @@ export default async function AdminSchedulePage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {tournaments.length === 0 ? (
-          <div className="bg-white rounded-2xl p-12 text-center text-slate-500 border border-slate-200 md:col-span-2">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl p-12 text-center text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-700 md:col-span-2">
             <span className="text-4xl block mb-2">🏸</span>
-            <p className="font-semibold text-slate-700">Belum Ada Turnamen</p>
+            <p className="font-semibold text-slate-700 dark:text-slate-300">Belum Ada Turnamen</p>
           </div>
         ) : (
           tournaments.map((t) => (
             <div
               key={t.id}
-              className="bg-white rounded-2xl border border-slate-100 shadow-xl shadow-slate-200/40 p-6 flex flex-col gap-4"
+              className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-xl shadow-slate-200/40 dark:shadow-slate-900/40 p-6 flex flex-col gap-4"
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <h3 className="font-bold text-slate-900">{t.name}</h3>
-                  <p className="text-xs text-slate-400 mt-1">
+                  <h3 className="font-bold text-slate-900 dark:text-slate-100">{t.name}</h3>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
                     {new Date(t.startDate).toLocaleDateString("id-ID", {
                       day: "numeric",
                       month: "short",
@@ -73,18 +72,18 @@ export default async function AdminSchedulePage() {
                     })}
                   </p>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-600 border border-slate-200 text-xs font-bold whitespace-nowrap">
+                <span className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-600 text-xs font-bold whitespace-nowrap">
                   {STATUS_LABEL[t.status] ?? t.status}
                 </span>
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500 font-medium">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                   {t._count.pools} pool terdaftar
                 </span>
                 <Link
                   href={`/admin/schedule/${t.id}`}
-                  className="px-5 py-2 bg-yellow-400 hover:bg-yellow-500 text-[#0F172A] font-bold rounded-xl text-sm transition-all active:scale-95"
+                  className="px-5 py-2 bg-primary hover:bg-primary-hover text-[#ffffff] font-bold rounded-xl text-sm transition-all active:scale-95"
                 >
                   Atur Jadwal →
                 </Link>

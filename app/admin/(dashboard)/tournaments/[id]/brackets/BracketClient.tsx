@@ -549,7 +549,7 @@ export default function BracketClient({
             🏆 Bagan Turnamen
           </h1>
           <p className="text-slate-500 text-sm mt-1">
-            {tournament.name} — Sistem Grup (Round-Robin) + Ranking
+            {tournament.name} — Sistem Grup + Bagan Gugur
           </p>
         </div>
         <Link
@@ -576,7 +576,7 @@ export default function BracketClient({
                 onClick={() => setActiveCategory(cat)}
                 className={`px-5 py-2.5 rounded-xl font-semibold text-sm transition-all inline-flex items-center gap-2 ${
                   activeCategory === cat
-                    ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30"
+                    ? "bg-primary text-[#ffffff] shadow-lg shadow-primary-800/30"
                     : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
                 }`}
               >
@@ -584,7 +584,7 @@ export default function BracketClient({
                 <span
                   className={`px-2 py-0.5 rounded-full text-xs font-bold ${
                     activeCategory === cat
-                      ? "bg-[rgba(255,255,255,0.2)] text-white"
+                      ? "bg-[rgba(255,255,255,0.2)] text-[#ffffff]"
                       : "bg-slate-100 text-slate-500"
                   }`}
                 >
@@ -609,9 +609,9 @@ export default function BracketClient({
                 search={groupSearch}
               />
               <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 text-sm text-slate-500">
-                🏊 Pertandingan pool (input skor) dikelola di{" "}
+                🏊 Input skor pool dilakukan di halaman{" "}
                 <strong>Kelola Pool</strong> atau Portal Wasit. Bagan gugur di
-                bawah di-generate dari ranking pool di atas.
+                bawah dibuat otomatis dari juara &amp; runner-up tiap pool.
               </div>
             </div>
           ) : (
@@ -671,11 +671,10 @@ export default function BracketClient({
             <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden p-6 mt-8">
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-slate-900">
-                  ⚔️ Fase Knockout (Sistem Gugur)
+                  ⚔️ Fase Gugur (Knockout)
                 </h3>
                 <p className="text-sm text-slate-500">
-                  Bagan gugur di-generate dari ranking pool di halaman Kelola
-                  Pool.
+                  Bagan dibuat otomatis dari juara &amp; runner-up tiap pool.
                 </p>
               </div>
 
@@ -702,7 +701,7 @@ export default function BracketClient({
                   dashed
                   icon="⚔️"
                   title="Belum Ada Bagan Gugur"
-                  description="Buat template bagan (slot peringkat) atau generate dari ranking pool di halaman Kelola Pool."
+                  description="Bagan akan tampil di sini setelah dibuat dari juara &amp; runner-up tiap pool di halaman Kelola Pool."
                 />
               )}
             </div>
@@ -727,7 +726,7 @@ export default function BracketClient({
                   min="0"
                   value={tempScore1}
                   onChange={(e) => setTempScore1(e.target.value)}
-                  className="w-20 h-16 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent mx-auto block"
+                  className="w-20 h-16 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mx-auto block"
                   autoFocus
                 />
               </div>
@@ -741,7 +740,7 @@ export default function BracketClient({
                   min="0"
                   value={tempScore2}
                   onChange={(e) => setTempScore2(e.target.value)}
-                  className="w-20 h-16 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent mx-auto block"
+                  className="w-20 h-16 text-center text-2xl font-bold border-2 border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent mx-auto block"
                 />
               </div>
             </div>
@@ -755,7 +754,7 @@ export default function BracketClient({
               <button
                 onClick={handleSubmitScore}
                 disabled={loading || tempScore1 === "" || tempScore2 === ""}
-                className="flex-1 px-4 py-3 bg-indigo-600 text-white rounded-xl font-semibold hover:bg-indigo-700 disabled:opacity-40 transition-all shadow-sm"
+                className="flex-1 px-4 py-3 bg-primary text-[#ffffff] rounded-xl font-semibold hover:bg-primary-hover disabled:opacity-40 transition-all shadow-sm"
               >
                 {loading ? "Menyimpan..." : "Simpan Skor"}
               </button>
@@ -778,7 +777,7 @@ export default function BracketClient({
               type="text"
               value={tempKnockoutName}
               onChange={(e) => setTempKnockoutName(e.target.value)}
-              className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-6"
+              className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary mb-6"
               autoFocus
               onKeyDown={(e) => e.key === "Enter" && submitKnockoutNameEdit()}
             />
@@ -792,7 +791,7 @@ export default function BracketClient({
               <button
                 onClick={submitKnockoutNameEdit}
                 disabled={loading}
-                className="flex-1 px-4 py-2.5 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 font-semibold disabled:opacity-50"
+                className="flex-1 px-4 py-2.5 bg-primary text-[#ffffff] rounded-xl hover:bg-primary-hover font-semibold disabled:opacity-50"
               >
                 Simpan
               </button>
@@ -850,10 +849,10 @@ function GroupCard({
   return (
     <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
       {/* Group Header */}
-      <div className="bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] px-6 py-4 flex items-center justify-between">
+      <div className="bg-gradient-to-r from-primary to-amber-500 px-6 py-4 flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-bold text-white">{group.name}</h3>
-          <p className="text-indigo-200 text-xs mt-0.5">
+          <h3 className="text-lg font-bold text-[#ffffff]">{group.name}</h3>
+          <p className="text-[#ffffff]/80 text-xs mt-0.5">
             {group.members.length} pemain •{" "}
             {totalMatches > 0
               ? `${completedMatches}/${totalMatches} match selesai`
@@ -864,7 +863,7 @@ function GroupCard({
           <button
             onClick={() => onGenerateMatches(group.id)}
             disabled={loading || group.members.length < 2}
-            className="px-4 py-2 bg-[rgba(255,255,255,0.2)] backdrop-blur-sm text-white rounded-lg text-xs font-semibold hover:bg-[rgba(255,255,255,0.3)] disabled:opacity-40 transition-all"
+            className="px-4 py-2 bg-[rgba(255,255,255,0.2)] backdrop-blur-sm text-[#ffffff] rounded-lg text-xs font-semibold hover:bg-[rgba(255,255,255,0.3)] disabled:opacity-40 transition-all"
             title="Generate ulang match round-robin"
           >
             ⚡ Generate Match
@@ -890,7 +889,7 @@ function GroupCard({
                 setAddMemberModal(group.id);
                 setSelectedPlayerName("");
               }}
-              className="px-3 py-1.5 bg-indigo-50 text-indigo-600 rounded-lg text-xs font-semibold hover:bg-indigo-100 transition-all"
+              className="px-3 py-1.5 bg-primary-50 text-primary-700 rounded-lg text-xs font-semibold hover:bg-primary-100 transition-all"
             >
               + Tambah Pemain
             </button>
@@ -905,9 +904,9 @@ function GroupCard({
               {sortedMembers.map((member, idx) => (
                 <div
                   key={member.id}
-                  className="flex items-center gap-3 bg-slate-50 rounded-xl px-4 py-2.5 group hover:bg-indigo-50 transition-colors"
+                  className="flex items-center gap-3 bg-slate-50 rounded-xl px-4 py-2.5 group hover:bg-primary-50 transition-colors"
                 >
-                  <span className="w-7 h-7 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0">
+                  <span className="w-7 h-7 bg-primary-100 text-primary-800 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {idx + 1}
                   </span>
                   <span className="flex-1 font-medium text-slate-800 text-sm">
@@ -949,7 +948,7 @@ function GroupCard({
 
           {/* Add Member Dropdown (inline) */}
           {addMemberModal === group.id && (
-            <div className="mt-3 p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+            <div className="mt-3 p-4 bg-primary-50 rounded-xl border border-primary-100">
               <div className="flex gap-2 items-start">
                 <div className="flex-1">
                   <PlayerCombobox
@@ -969,7 +968,7 @@ function GroupCard({
                 <button
                   onClick={() => onAddMember(group.id)}
                   disabled={!selectedPlayerName || loading}
-                  className="px-4 py-4 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 disabled:opacity-40 transition-all"
+                  className="px-4 py-4 bg-primary text-[#ffffff] rounded-lg text-sm font-semibold hover:bg-primary-hover disabled:opacity-40 transition-all"
                 >
                   Tambah
                 </button>
@@ -1003,7 +1002,7 @@ function GroupCard({
                   className={`flex items-center justify-between p-3 rounded-xl border text-left transition-all hover:shadow-md ${
                     match.status === "DONE"
                       ? "bg-emerald-50 border-emerald-200"
-                      : "bg-white border-slate-200 hover:border-indigo-300"
+                      : "bg-white border-slate-200 hover:border-primary"
                   }`}
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -1041,7 +1040,7 @@ function GroupCard({
                         </span>
                       </span>
                     ) : (
-                      <span className="text-xs text-indigo-500 font-semibold px-2 py-1 bg-indigo-50 rounded-lg">
+                      <span className="text-xs text-primary-700 font-semibold px-2 py-1 bg-primary-50 rounded-lg">
                         Input Skor
                       </span>
                     )}
@@ -1091,7 +1090,7 @@ function GroupCard({
                         key={member.id}
                         className={`${
                           member.rank === 1
-                            ? "bg-yellow-50"
+                            ? "bg-primary-50"
                             : member.rank === 2
                             ? "bg-slate-50"
                             : ""
@@ -1172,10 +1171,10 @@ function OverallRanking({
   return (
     <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
       <div className="bg-gradient-to-r from-yellow-500 to-amber-500 px-6 py-4">
-        <h3 className="text-lg font-bold text-white">
+        <h3 className="text-lg font-bold text-amber-950">
           🏅 Ranking Keseluruhan — {categoryKeyToLabel(category)}
         </h3>
-        <p className="text-yellow-100 text-xs mt-0.5">
+        <p className="text-amber-900 text-xs mt-0.5">
           Peringkat gabungan dari semua grup berdasarkan kemenangan dan selisih
           poin
         </p>
@@ -1201,13 +1200,13 @@ function OverallRanking({
                 key={member.id}
                 className={`${
                   idx === 0
-                    ? "bg-yellow-50"
+                    ? "bg-primary-50"
                     : idx === 1
                     ? "bg-slate-50/50"
                     : idx === 2
                     ? "bg-amber-50/30"
                     : ""
-                } hover:bg-indigo-50 transition-colors`}
+                } hover:bg-primary-50 transition-colors`}
               >
                 <td className="py-3 px-4 font-bold">
                   {idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : idx + 1}
@@ -1216,7 +1215,7 @@ function OverallRanking({
                   {member.playerName}
                 </td>
                 <td className="py-3 px-4">
-                  <span className="px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-semibold">
+                  <span className="px-2.5 py-1 bg-primary-50 text-primary-700 rounded-full text-xs font-semibold">
                     {member.groupName}
                   </span>
                 </td>
@@ -1278,8 +1277,8 @@ function PoolGroupBagan({ pools }: { pools: PoolStanding[] }) {
             key={pool.id}
             className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col"
           >
-            <div className="bg-[#1C4E67] px-4 py-3 flex items-center gap-3">
-              <span className="shrink-0 inline-flex items-center rounded-lg bg-[#C6E76B] px-2.5 py-1 text-xs font-black uppercase tracking-wider text-[#0F2A3D]">
+            <div className="bg-brand-2 px-4 py-3 flex items-center gap-3">
+              <span className="shrink-0 inline-flex items-center rounded-lg bg-gold px-2.5 py-1 text-xs font-black uppercase tracking-wider text-brand">
                 Pool {pool.poolCode}
               </span>
               <div className="min-w-0">
@@ -1361,7 +1360,7 @@ function PoolStandings({
 
   return (
     <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-      <div className="bg-gradient-to-r from-[#0F2A3D] to-[#1C4E67] px-5 py-4">
+      <div className="bg-gradient-to-r from-brand to-brand-2 px-5 py-4">
         <h4 className="text-sm font-bold text-[#ffffff]">
           🏅 Perankingan Gabungan (Top-2 per Pool) —{" "}
           {categoryKeyToLabel(pools[0].categoryKey)}
@@ -1406,13 +1405,13 @@ function PoolStandings({
                   key={member.id}
                   className={`${
                     idx === 0
-                      ? "bg-yellow-50"
+                      ? "bg-primary-50"
                       : idx === 1
                       ? "bg-slate-50"
                       : idx === 2
                       ? "bg-amber-50/30"
                       : ""
-                  } hover:bg-indigo-50 transition-colors`}
+                  } hover:bg-primary-50 transition-colors`}
                 >
                   <td className="py-3 px-4 font-bold text-slate-400">
                     {idx === 0
@@ -1427,7 +1426,7 @@ function PoolStandings({
                     {member.memberName}
                   </td>
                   <td className="py-3 px-4">
-                    <span className="px-2.5 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-semibold">
+                    <span className="px-2.5 py-1 bg-primary-50 text-primary-700 rounded-full text-xs font-semibold">
                       {member.poolLabel}
                     </span>
                   </td>

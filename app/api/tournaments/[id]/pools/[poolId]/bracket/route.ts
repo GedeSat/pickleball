@@ -5,13 +5,11 @@
  * ============================================================
  */
 
-import { PrismaClient } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
 import { buildBracket } from "@/lib/bracketGenerator";
 import { buildTemplateBracket, fillBracketFromPools } from "@/lib/bracketTemplate";
 import { revalidatePath } from "next/cache";
-
-const prisma = new PrismaClient();
 
 // ----------------------------------------------------------------
 // GET: Ambil bracket yang sudah di-generate untuk kategori pool ini
@@ -103,6 +101,14 @@ export async function POST(
           slots
         );
 
+        // Langsung resolve token yang peringkat pool-nya sudah terhitung
+        // (mis. fase grup sudah selesai saat template dibuat)
+        const filledCount = await fillBracketFromPools(
+          prisma,
+          tournamentId,
+          pool.categoryKey
+        );
+
         revalidatePath(`/admin/tournaments/${tournamentId}/brackets`);
         revalidatePath(`/tournament/${tournamentId}/bracket`);
         revalidatePath(`/tournament/${tournamentId}/schedule`);
@@ -112,6 +118,7 @@ export async function POST(
           {
             categoryKey: pool.categoryKey,
             slotCount: slots.length,
+            filledCount,
             matches: bracketMatches,
           },
           201

@@ -5,10 +5,9 @@
  * ============================================================
  */
 
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
-
-const prisma = new PrismaClient();
 
 // ----------------------------------------------------------------
 // GET: List semua pool dalam turnamen

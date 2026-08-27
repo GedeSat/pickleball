@@ -58,7 +58,7 @@ export default function LoginPage() {
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full rounded-lg border px-4 py-2" required />
           </div>
 
-          <button type="submit" className="mt-4 w-full rounded-lg bg-blue-600 px-4 py-2.5 text-white font-medium hover:bg-blue-700">
+          <button type="submit" className="mt-4 w-full rounded-lg bg-primary px-4 py-2.5 text-[#ffffff] font-medium hover:bg-primary-hover">
             Masuk
           </button>
         </form>

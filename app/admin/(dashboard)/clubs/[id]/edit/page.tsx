@@ -27,7 +27,7 @@ export default async function EditClubPage({
   return (
     <div className="p-8 max-w-3xl mx-auto">
       <div className="mb-8">
-        <Link href="/admin/clubs" className="text-blue-600 font-semibold text-sm hover:underline mb-4 inline-block">
+        <Link href="/admin/clubs" className="text-primary-700 font-semibold text-sm hover:underline mb-4 inline-block">
           &larr; Batal & Kembali
         </Link>
         <h1 className="text-3xl font-bold text-slate-900">Edit Data Klub</h1>
@@ -37,30 +37,30 @@ export default async function EditClubPage({
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Nama Klub *</label>
           {/* Gunakan defaultValue untuk menampilkan data yang sudah ada */}
-          <input type="text" name="name" defaultValue={club.name} required className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+          <input type="text" name="name" defaultValue={club.name} required className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none" />
         </div>
 
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Lokasi / Lapangan Utama</label>
-          <input type="text" name="location" defaultValue={club.location || ""} className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+          <input type="text" name="location" defaultValue={club.location || ""} className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none" />
         </div>
 
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Kontak (WA / IG)</label>
-          <input type="text" name="contact" defaultValue={club.contact || ""} className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+          <input type="text" name="contact" defaultValue={club.contact || ""} className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none" />
         </div>
 
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Link Logo / Gambar</label>
-          <input type="url" name="logo" defaultValue={club.logo || ""} className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+          <input type="url" name="logo" defaultValue={club.logo || ""} className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none" />
         </div>
 
         <div>
           <label className="block text-sm font-bold text-slate-700 mb-2">Deskripsi Singkat</label>
-          <textarea name="description" defaultValue={club.description || ""} rows={4} className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+          <textarea name="description" defaultValue={club.description || ""} rows={4} className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"></textarea>
         </div>
 
-        <button type="submit" className="w-full bg-blue-600 text-white font-bold py-4 rounded-xl hover:bg-blue-700 transition">
+        <button type="submit" className="w-full bg-primary text-[#ffffff] font-bold py-4 rounded-xl hover:bg-primary-hover transition">
           Simpan Perubahan
         </button>
       </form>

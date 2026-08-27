@@ -115,6 +115,16 @@ export async function fillBracketFromPools(
       }
     }
 
+    // Match BYE yang sudah DONE menyimpan token di winnerName — resolve juga
+    const w = parseSlotToken(match.winnerName);
+    if (w) {
+      const name = memberBySlot.get(formatSlotToken(w.poolCode, w.rank));
+      if (name) {
+        updates.winnerName = name;
+        filledCount++;
+      }
+    }
+
     if (Object.keys(updates).length > 0) {
       await prisma.knockoutMatch.update({
         where: { id: match.id },

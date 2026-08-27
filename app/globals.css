@@ -4,70 +4,94 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Mode gelap: remap token warna Tailwind 4 di dalam scope .dark.
- * Karena utility Tailwind 4 mengacu var(--color-*), seluruh UI
- * (bg-white, text-slate-*, badge berwarna, dst.) otomatis ikut
- * gelap tanpa mengubah satu-satu class di tiap komponen.
+ * Design tokens berdasarkan UI/UX Pro Max design system:
+ * Pattern: Hero-Centric Design
+ * Style: Vibrant & Block-based
+ * Warna: Red + Championship Gold palette
+ * Light: Background #FEF2F2, Primary #DC2626
+ * Dark: Full dark mode with consistent palette
+ */
+
+/* --- Light Mode Tokens --- */
+@theme {
+  --color-primary: #059669;        /* Primary: Emerald 600 */
+  --color-primary-hover: #047857;  /* Hover state (emerald 700) */
+  --color-on-primary: #FFFFFF;     /* Teks di atas primary */
+  --color-primary-50: #ECFDF5;    /* Tint primary terang (emerald 50) */
+  --color-primary-100: #D1FAE5;   /* primary-100 (emerald 100) */
+  --color-primary-200: #A7F3D0;   /* primary-200 (emerald 200) */
+  --color-primary-300: #6EE7B7;   /* primary-300 (emerald 300) */
+  --color-primary-400: #34D399;   /* primary-400 (emerald 400) */
+  --color-primary-500: #10B981;   /* primary-500 (emerald 500) */
+  --color-primary-600: #059669;   /* primary-600 (emerald 600) */
+  --color-primary-700: #047857;   /* teks primer gelap (emerald 700) */
+  --color-primary-800: #065F46;   /* primary-800 (emerald 800) */
+  --color-primary-900: #064E3B;   /* primary-900 (emerald 900) */
+
+  --color-gold: #FBBF24;           /* championship gold */
+  --color-brand: #0b2447;          /* Warna brand utama */
+  --color-brand-2: #12305e;        /* hover/aktif */
+  --color-danger: #DC2626;         /* Aksi destruktif */
+  --color-danger-hover: #B91C1C;   /* hover state destruktif */
+
+  /* Neutral tokens */
+  --color-slate-50: #F8FAFC;
+  --color-slate-100: #F1F5F9;
+  --color-slate-200: #E2E8F0;
+  --color-slate-300: #CBD5E1;
+  --color-slate-400: #94A3B8;
+  --color-slate-500: #64748B;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1E293B;
+  --color-slate-900: #0F172A;
+  --color-slate-950: #020617;
+
+  /* Light mode neutral */
+  --color-white: #FFFFFF;
+  --color-gray-50: #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-300: #D1D5DB;
+  --color-gray-400: #9CA3AF;
+  --color-gray-500: #6B7280;
+  --color-gray-600: #4B5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1F2937;
+  --color-gray-900: #111827;
+}
+
+/* --- Dark Mode ---
+ * NOTE: Jangan remap variabel slate-* di sini!
+ * Utility Tailwind seperti `dark:text-slate-100` dan `dark:bg-slate-800`
+ * meng-compile ke `var(--color-slate-*)` yang sama. Jika slate remap di sini,
+ * maka teks (dark:text-slate-100) dan background (dark:bg-slate-800) akan
+ * memakai nilai yang sama (gelap) -> teks jadi tidak terbaca.
+ *
+ * Komponen sudah memakai `dark:bg-slate-800` (bg gelap) + `dark:text-slate-100`
+ * (teks terang) dari palette statis di @theme. Cukup aktifkan color-scheme.
  */
 .dark {
   color-scheme: dark;
+}
 
-  /* Permukaan netral */
-  --color-white: #1e293b;
-  --color-slate-50: #0f172a;
-  --color-slate-100: #26344a;
-  --color-slate-200: #334155;
-  --color-slate-300: #64748b;
-  --color-slate-400: #94a3b8;
-  --color-slate-500: #a8b3c6;
-  --color-slate-600: #cbd5e1;
-  --color-slate-700: #e2e8f0;
-  --color-slate-800: #f1f5f9;
-  --color-slate-900: #ffffff;
-
-  /* Tint & teks aksen (badge / tabel / hover) */
-  --color-indigo-50: #1e2447;
-  --color-indigo-100: #2b3168;
-  --color-indigo-200: #4f46e5;
-  --color-indigo-600: #a5b4fc;
-  --color-indigo-700: #c7d2fe;
-  --color-blue-50: #0f2647;
-  --color-blue-100: #16305c;
-  --color-blue-200: #1e40af;
-  --color-blue-300: #1e3a8a;
-  --color-blue-600: #60a5fa;
-  --color-blue-700: #93c5fd;
-  --color-emerald-50: #0b2e26;
-  --color-emerald-100: #123b2c;
-  --color-emerald-200: #059669;
-  --color-emerald-600: #34d399;
-  --color-emerald-700: #6ee7b7;
-  --color-red-50: #33161a;
-  --color-red-100: #44202a;
-  --color-red-200: #b91c1c;
-  --color-red-500: #f87171;
-  --color-red-600: #f87171;
-  --color-red-700: #fca5a5;
-  --color-rose-700: #fda4af;
-  --color-amber-50: #33280f;
-  --color-amber-100: #443316;
-  --color-amber-200: #a16207;
-  --color-amber-600: #fbbf24;
-  --color-amber-700: #fcd34d;
-  --color-yellow-50: #33300f;
-  --color-yellow-100: #443f13;
-  --color-yellow-200: #a16207;
-  --color-yellow-300: #a16207;
-  --color-yellow-600: #facc15;
-  --color-yellow-700: #fde047;
-  --color-sky-50: #0c2e42;
-  --color-sky-100: #123e57;
-  --color-sky-200: #0369a1;
-  --color-sky-600: #38bdf8;
-  --color-sky-700: #7dd3fc;
-  --color-purple-50: #241e3d;
-  --color-purple-100: #2e2450;
-  --color-purple-200: #7e22ce;
-  --color-purple-600: #c4b5fd;
-  --color-purple-700: #d8b4fe;
+/* --- Public site theme ---
+ * Admin pakai primary Emerald (default @theme).
+ * Public site memakai warna NAVY yang konsisten dengan brand IPF
+ * (--color-brand #0b2447 / --color-brand-2 #12305e).
+ * Scoped lewat class .public agar tidak mempengaruhi admin.
+ */
+.public {
+  --color-primary: #12305e;         /* brand-2 (navy terang, teks putih tetap terbaca) */
+  --color-primary-hover: #0b2447;   /* brand (navy lebih gelap) */
+  --color-primary-50: #EEF1F7;      /* navy tint terang */
+  --color-primary-100: #D9E0EC;     /* navy 100 */
+  --color-primary-200: #B3C1D9;     /* navy 200 */
+  --color-primary-300: #9DB8E0;     /* navy 300 - teks readable di bg gelap */
+  --color-primary-400: #7C9CCF;     /* navy 400 */
+  --color-primary-500: #5C7DB3;     /* navy 500 */
+  --color-primary-600: #2D5C99;     /* navy 600 */
+  --color-primary-700: #0b2447;     /* navy 700 - teks/link */
+  --color-primary-800: #081B36;     /* navy 800 */
+  --color-primary-900: #061427;     /* navy 900 */
 }

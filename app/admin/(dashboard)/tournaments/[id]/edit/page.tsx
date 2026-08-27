@@ -76,7 +76,7 @@ export default function EditTournamentPage({
     return (
       <div className="flex justify-center items-center min-h-[50vh]">
         <div className="animate-pulse flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-4 border-slate-300 border-t-blue-600 rounded-full animate-spin"></div>
+          <div className="w-8 h-8 border-4 border-slate-300 border-t-primary rounded-full animate-spin"></div>
           <p className="text-slate-500 font-medium">Memuat data turnamen...</p>
         </div>
       </div>
@@ -141,7 +141,7 @@ const formattedEndDate = tournament?.endDate
                 name="name"
                 required
                 defaultValue={tournament.name}
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                 placeholder="Contoh: Jakarta Pickleball Open 2026"
               />
             </div>
@@ -156,7 +156,7 @@ const formattedEndDate = tournament?.endDate
                 required 
                 defaultValue={tournament.category || ""}
                 placeholder="Contoh: Men's Doubles All Age" 
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all" 
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all" 
               />
             </div>
 
@@ -168,7 +168,7 @@ const formattedEndDate = tournament?.endDate
                 name="location"
                 required
                 defaultValue={tournament.location}
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
                 placeholder="Contoh: GOR Soemantri Brodjonegoro"
               />
             </div>
@@ -182,7 +182,7 @@ const formattedEndDate = tournament?.endDate
                 name="startDate"
                 required
                 defaultValue={formattedStartDate}
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all"
               />
             </div>
 
@@ -195,7 +195,7 @@ const formattedEndDate = tournament?.endDate
                 name="endDate"
                 required
                 defaultValue={formattedEndDate}
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all"
               />
             </div>
 
@@ -208,7 +208,7 @@ const formattedEndDate = tournament?.endDate
                 name="registrationFee" 
                 defaultValue={tournament.registrationFee} 
                 min="0" 
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" 
               />
             </div>
 
@@ -223,7 +223,7 @@ const formattedEndDate = tournament?.endDate
                 defaultValue={tournament.maxParticipants}
                 min="2" 
                 placeholder="Contoh: 32"
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all" 
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" 
               />
             </div>
 
@@ -234,7 +234,7 @@ const formattedEndDate = tournament?.endDate
                 id="status" 
                 name="status" 
                 defaultValue={tournament.status}
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-white"
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all bg-white"
               >
                 <option value="DRAFT">Draft (Belum Rilis)</option>
                 <option value="UPCOMING">Upcoming (Buka Pendaftaran)</option>
@@ -253,7 +253,7 @@ const formattedEndDate = tournament?.endDate
               
               {/* Info gambar saat ini jika ada */}
               {tournament.image && (
-                <div className="mb-2 text-sm text-blue-600 bg-blue-50 p-3 rounded-md border border-blue-100 flex items-center gap-2">
+                <div className="mb-2 text-sm text-primary-700 bg-primary-50 p-3 rounded-md border border-primary-100 flex items-center gap-2">
                   <span>🖼️</span> Turnamen ini sudah memiliki gambar. Kosongkan jika tidak ingin mengubahnya.
                 </div>
               )}
@@ -269,14 +269,14 @@ const formattedEndDate = tournament?.endDate
                       file:mr-4 file:py-2.5 file:px-4 
                       file:rounded-md file:border-0 
                       file:text-sm file:font-semibold 
-                      file:bg-blue-50 file:text-blue-700 
-                      hover:file:bg-blue-100 transition-all cursor-pointer disabled:opacity-50"
+                      file:bg-primary-50 file:text-primary-800 
+                      hover:file:bg-primary-100 transition-all cursor-pointer disabled:opacity-50"
                   />
                   <p className="text-xs text-slate-500 mt-2">Format didukung: JPG, PNG. Ukuran ideal 16:9.</p>
 
                   {isUploading && (
-                    <p className="mt-2 text-sm text-blue-600 animate-pulse flex items-center gap-2">
-                      <span className="w-3 h-3 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></span>
+                    <p className="mt-2 text-sm text-primary-700 animate-pulse flex items-center gap-2">
+                      <span className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin"></span>
                       Sedang mengunggah gambar...
                     </p>
                   )}
@@ -303,7 +303,7 @@ const formattedEndDate = tournament?.endDate
                 name="description"
                 rows={5}
                 defaultValue={tournament.description || ""}
-                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all resize-y"
+                className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all resize-y"
                 placeholder="Tuliskan aturan, sistem pertandingan, dll..."
               ></textarea>
             </div>
@@ -315,7 +315,7 @@ const formattedEndDate = tournament?.endDate
             <button 
               type="submit" 
               disabled={isUploading}
-              className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-500 text-white px-8 py-3 rounded-lg font-medium transition-colors shadow-sm focus:ring-4 focus:ring-slate-200 outline-none"
+              className="bg-slate-900 hover:bg-slate-800 disabled:bg-slate-500 text-[#ffffff] px-8 py-3 rounded-lg font-medium transition-colors shadow-sm focus:ring-4 focus:ring-slate-200 outline-none"
             >
               {isUploading ? "Tunggu Sebentar..." : "Simpan Perubahan"}
             </button>

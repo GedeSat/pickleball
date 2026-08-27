@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import PlayerTableClient, { PlayerRow, TournamentGroup } from "./PlayerTableClient";
 
-export const dynamic = 'force-dynamic';
 
 export default async function PlayerListPage() {
   const players = await prisma.player.findMany({
@@ -89,7 +88,7 @@ export default async function PlayerListPage() {
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 bg-gradient-to-br from-[#6366F1] to-[#7C3AED] rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-indigo-500/30">
+          <div className="w-14 h-14 bg-gradient-to-br from-primary to-amber-500 rounded-2xl flex items-center justify-center text-[#ffffff] text-2xl shadow-lg shadow-primary-800/30">
             👥
           </div>
           <div>

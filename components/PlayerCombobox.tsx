@@ -97,7 +97,7 @@ export default function PlayerCombobox({
         onFocus={() => setOpen(true)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-500/15 focus:border-blue-500 transition-all outline-none font-medium text-slate-700"
+        className="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-primary/15 focus:border-primary transition-all outline-none font-medium text-slate-700"
       />
       {open && (
         <div className="absolute z-30 mt-1 w-full max-h-64 overflow-y-auto bg-white border border-slate-200 rounded-2xl shadow-xl shadow-slate-200/60">
@@ -116,8 +116,8 @@ export default function PlayerCombobox({
                 }}
                 onMouseEnter={() => setHighlight(idx)}
                 className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                  idx === highlight ? 'bg-indigo-50' : 'bg-white'
-                } hover:bg-indigo-50`}
+                  idx === highlight ? 'bg-primary-50' : 'bg-white'
+                } hover:bg-primary-50`}
               >
                 <span className="font-semibold text-slate-800">{item.label}</span>
                 {item.subtitle && (

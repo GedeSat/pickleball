@@ -13,29 +13,29 @@ export default async function PostsPage() {
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-slate-900">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
           Kelola Artikel / Post
         </h1>
         <Link
           href="/admin/posts/create"
-          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition"
+          className="bg-primary hover:bg-primary-hover text-[#ffffff] px-4 py-2 rounded-lg font-medium transition"
         >
           + Tambah Post
         </Link>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
         {posts.length === 0 ? (
-          <div className="p-8 text-center text-slate-500">
+          <div className="p-8 text-center text-slate-500 dark:text-slate-400">
             Belum ada artikel.
           </div>
         ) : (
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="p-4 font-semibold text-slate-700">Judul</th>
-                <th className="p-4 font-semibold text-slate-700">Penulis</th>
-                <th className="p-4 font-semibold text-slate-700 text-right">
+              <tr className="bg-slate-50 dark:bg-slate-700/50 border-b border-slate-200 dark:border-slate-700">
+                <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Judul</th>
+                <th className="p-4 font-semibold text-slate-700 dark:text-slate-300">Penulis</th>
+                <th className="p-4 font-semibold text-slate-700 dark:text-slate-300 text-right">
                   Aksi
                 </th>
               </tr>
@@ -44,12 +44,12 @@ export default async function PostsPage() {
               {posts.map((post) => (
                 <tr
                   key={post.id}
-                  className="border-b border-slate-100 hover:bg-slate-50"
+                  className="border-b border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700"
                 >
-                  <td className="p-4 font-medium text-slate-900">
+                  <td className="p-4 font-medium text-slate-900 dark:text-slate-100">
                     {post.title}
                   </td>
-                  <td className="p-4 text-slate-500">
+                  <td className="p-4 text-slate-500 dark:text-slate-400">
                     {post.author?.name || "Admin"}
                   </td>
                   <td className="p-4 text-right">
@@ -57,7 +57,7 @@ export default async function PostsPage() {
                       {/* Tombol Edit */}
                       <Link
                         href={`/admin/posts/${post.id}/edit`}
-                        className="text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-3 py-1 rounded-md transition"
+                        className="text-primary-700 dark:text-primary-400 hover:text-primary-900 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-200/20 px-3 py-1 rounded-md transition"
                       >
                         Edit
                       </Link>

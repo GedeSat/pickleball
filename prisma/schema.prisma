@@ -7,12 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  MATCH_ADMIN
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   name      String?
   email     String   @unique
   password  String
-  role      String   @default("USER")
+  role      UserRole @default(ADMIN)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -133,8 +139,24 @@ model Club {
   logo        String?
   location    String?
   contact     String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================================
+// KONFIGURASI METODE PEMBAYARAN — diatur oleh SUPER_ADMIN
+// ============================================================
+
+model PaymentMethodConfig {
+  id          Int      @id @default(autoincrement())
+  method      String   // TRANSFER, QRIS, EWALLET, VENUE
+  label       String   // Nama tampil: "Transfer Bank", "QRIS", "E-Wallet", "Bayar di Tempat"
+  image       String?  // URL gambar QRIS / E-Wallet (opsional)
+  active      Boolean  @default(true)
+  order       Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // ============================================================
@@ -421,6 +443,42 @@ model OrgStructure {
   parentId  String?
   parent    OrgStructure?  @relation("OrgHierarchy", fields: [parentId], references: [id], onDelete: SetNull)
   children  OrgStructure[] @relation("OrgHierarchy")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================================
+// BANNER SLIDER — dikelola lewat /admin/banners
+// ============================================================
+
+model Banner {
+  id             Int      @id @default(autoincrement())
+  tag            String
+  title          String
+  titleHighlight String   @default("")
+  desc           String   @default("")
+  image          String
+  bgGradient     String   @default("from-primary via-brand to-brand")
+  order          Int      @default(0)
+  active         Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================================
+// REKENING BANK — ditampilkan di halaman publik untuk pembayaran
+// ============================================================
+
+model BankAccount {
+  id            Int      @id @default(autoincrement())
+  bankName      String   // Contoh: "BCA", "Mandiri", "BRI"
+  accountNumber String   // Nomor rekening
+  accountName   String   // Nama pemilik rekening
+  logo          String?  // URL logo bank (opsional)
+  active        Boolean  @default(true)
+  order         Int      @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

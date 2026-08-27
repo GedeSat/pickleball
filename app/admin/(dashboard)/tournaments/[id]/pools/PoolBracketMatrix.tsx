@@ -7,12 +7,49 @@ import {
   type PoolMatrix,
   type PoolMatrixInput,
 } from '@/lib/poolMatrix';
+import { exportToExcelMulti } from '@/lib/exportUtils';
 import type { PoolManagerPool } from './PoolManagerClient';
+
+function exportPoolMatrixToExcel(pool: PoolMatrixInput, matrix: PoolMatrix) {
+  const matrixHeaders = [
+    'Peserta',
+    ...matrix.members.map((m) => `${m.code} ${m.name}`),
+  ];
+  const matrixRows = matrix.members.map((row, i) => [
+    `${row.code} ${row.name}`,
+    ...matrix.members.map((_, j) => {
+      const cell = matrix.cells[i][j];
+      if (cell && cell.status === 'DONE' && cell.rowScore !== null && cell.colScore !== null) {
+        return `${cell.rowScore}–${cell.colScore}`;
+      }
+      return '–';
+    }),
+  ]);
+
+  // Dua tab: "Pool" (matrix) & "Klasemen"
+  const standingsRows = matrix.standings.map((s) => [
+    s.rank,
+    s.code,
+    s.name,
+    s.wins,
+    s.losses,
+    s.pointDiff,
+  ]);
+
+  exportToExcelMulti(`Bagan_Pool_${matrix.poolCode}`, [
+    { name: `Pool ${matrix.poolCode}`, headers: matrixHeaders, rows: matrixRows },
+    {
+      name: 'Klasemen',
+      headers: ['Peringkat', 'Kode', 'Nama', 'Menang', 'Kalah', 'Selisih Poin'],
+      rows: standingsRows,
+    },
+  ]);
+}
 
 function CodeChip({ code, className = '' }: { code: string; className?: string }) {
   return (
     <span
-      className={`shrink-0 inline-flex items-center justify-center rounded-md bg-slate-900 text-white dark:bg-[#1C4E67] dark:text-[#ffffff] text-[10px] font-bold px-1.5 py-0.5 tabular-nums ${className}`}
+      className={`shrink-0 inline-flex items-center justify-center rounded-md bg-slate-900 text-[#ffffff] dark:bg-brand-2 dark:text-[#ffffff] text-[10px] font-bold px-1.5 py-0.5 tabular-nums ${className}`}
     >
       {code}
     </span>
@@ -82,7 +119,17 @@ export function PoolMatrixTable({ pool }: { pool: PoolMatrixInput }) {
           Pool ini belum memiliki cukup peserta untuk bagan grup.
         </p>
       ) : (
-        <div className="overflow-x-auto">
+        <>
+          <div className="flex justify-end mb-3">
+            <button
+              type="button"
+              onClick={() => exportPoolMatrixToExcel(pool, matrix)}
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-[#ffffff] rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
+            >
+              📥 Export Excel (Matrix + Klasemen)
+            </button>
+          </div>
+          <div className="overflow-x-auto">
           <table className="border-collapse min-w-full">
             <thead>
               <tr>
@@ -123,7 +170,8 @@ export function PoolMatrixTable({ pool }: { pool: PoolMatrixInput }) {
               ))}
             </tbody>
           </table>
-        </div>
+          </div>
+        </>
       )}
 
       {/* Keterangan highlight */}
@@ -144,7 +192,7 @@ export function PoolMatrixTable({ pool }: { pool: PoolMatrixInput }) {
           <div
             className={`rounded-xl px-4 py-3 flex items-center gap-3 ${
               champion
-                ? 'bg-yellow-50 ring-1 ring-yellow-200'
+                ? 'bg-primary-50 ring-1 ring-amber-200'
                 : 'bg-slate-50 ring-1 ring-slate-100'
             }`}
           >
@@ -152,7 +200,7 @@ export function PoolMatrixTable({ pool }: { pool: PoolMatrixInput }) {
             {champion ? (
               <>
                 <div className="min-w-0">
-                  <p className="text-[10px] font-black uppercase tracking-wider text-yellow-700">
+                  <p className="text-[10px] font-black uppercase tracking-wider text-primary-800">
                     Juara Grup
                   </p>
                   <p className="font-bold text-sm text-slate-800 truncate flex items-center gap-1.5">
@@ -246,9 +294,9 @@ export default function PoolBracketMatrix({
     <div className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 backdrop-blur-sm overflow-y-auto py-10">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl mx-4 my-auto">
         {/* Header teal + badge pool */}
-        <div className="bg-[#1C4E67] text-[#ffffff] px-5 py-4 rounded-t-2xl flex items-center justify-between gap-3">
+        <div className="bg-brand-2 text-[#ffffff] px-5 py-4 rounded-t-2xl flex items-center justify-between gap-3">
           <div className="flex items-center gap-3 min-w-0">
-            <span className="shrink-0 inline-flex items-center rounded-lg bg-[#C6E76B] px-2.5 py-1 text-xs font-black uppercase tracking-wider text-[#0F2A3D]">
+            <span className="shrink-0 inline-flex items-center rounded-lg bg-gold px-2.5 py-1 text-xs font-black uppercase tracking-wider text-brand">
               Pool {input.poolCode}
             </span>
             <div className="min-w-0">
