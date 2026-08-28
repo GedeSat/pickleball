@@ -122,6 +122,10 @@ model Tournament {
   status          TournamentStatus @default(DRAFT)
   // Arsip (soft delete): null = aktif, terisi = diarsipkan
   deletedAt       DateTime?
+  // Kode akses wasit: 1 kode per turnamen (semua wasit di turnamen yang sama memakai kode yang sama)
+  refereeCode     String?
+  // Status aktif kode akses wasit untuk turnamen ini
+  isCodeActive    Boolean          @default(true)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 

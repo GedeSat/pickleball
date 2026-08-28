@@ -21,6 +21,10 @@ export async function updateTournament(formData: FormData) {
   // 🔥 AMBIL STRING URL GAMBAR DARI FORM (Bukan File lagi)
   const imageUrl = formData.get('image') as string
 
+  // Kode akses wasit — kosong berarti nonaktif
+  const refereeCode = (formData.get('refereeCode') as string)?.trim() || null
+  const isCodeActive = formData.get('isCodeActive') === 'on'
+
   // Tingkat (grade) yang dipilih admin untuk turnamen ini
   const selectedGrades = parseGradeOptionsPayload(formData.getAll('grades') as string[])
 
@@ -42,6 +46,8 @@ export async function updateTournament(formData: FormData) {
       maxParticipants: parseInt(maxParticipants) || 0,
       gradeOptions: selectedGrades.length > 0 ? JSON.stringify(selectedGrades) : null,
       status,
+      refereeCode,
+      isCodeActive,
       // 🔥 Masukkan URL gambar ke database jika ada!
       ...(imageUrl ? { image: imageUrl } : {}) 
     }

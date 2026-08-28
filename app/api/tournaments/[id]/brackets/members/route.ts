@@ -1,6 +1,7 @@
 // /api/tournaments/[id]/brackets/members/route.ts
 import { PrismaClient } from "@prisma/client";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 
 const prisma = new PrismaClient();
 
@@ -10,6 +11,8 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   await params; // consume params
+
+  if (!(await requireAdminSession())) return unauthorizedResponse();
 
   try {
     const body = await req.json();
@@ -53,6 +56,8 @@ export async function DELETE(
 ) {
   await params;
 
+  if (!(await requireAdminSession())) return unauthorizedResponse();
+
   try {
     const body = await req.json();
     const { memberId } = body;
@@ -78,6 +83,8 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   await params;
+
+  if (!(await requireAdminSession())) return unauthorizedResponse();
 
   try {
     const body = await req.json();

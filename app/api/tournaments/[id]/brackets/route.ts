@@ -1,6 +1,7 @@
 // /api/tournaments/[id]/brackets/route.ts
 import { PrismaClient } from "@prisma/client";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 
 const prisma = new PrismaClient();
 
@@ -49,6 +50,8 @@ export async function POST(
   const { id } = await params;
   const tournamentId = Number(id);
 
+  if (!(await requireAdminSession())) return unauthorizedResponse();
+
   try {
     const body = await req.json();
     const { name, category } = body;
@@ -83,6 +86,8 @@ export async function DELETE(
 ) {
   const { id } = await params;
   
+  if (!(await requireAdminSession())) return unauthorizedResponse();
+
   try {
     const body = await req.json();
     const { groupId } = body;

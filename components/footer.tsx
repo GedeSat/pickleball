@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import CopyrightYear from './CopyrightYear';
 
 export default function Footer() {
   return (
@@ -96,7 +97,7 @@ export default function Footer() {
 
       {/* BAGIAN BAWAH (COPYRIGHT) */}
       <div className="max-w-6xl mx-auto px-6 mt-16 pt-8 border-t border-brand-2 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-        <p>&copy; {new Date().getFullYear()} Indonesia Pickleball Federation (IPF) Kota Denpasar. Hak cipta dilindungi.</p>
+        <p>&copy; <CopyrightYear /> Indonesia Pickleball Federation (IPF) Kota Denpasar. Hak cipta dilindungi.</p>
       </div>
     </footer>
   );

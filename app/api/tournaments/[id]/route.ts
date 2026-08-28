@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { unlink } from "fs/promises";
 import path from "path";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 
 export async function GET(
   req: Request,
@@ -39,6 +40,8 @@ export async function DELETE(
   const tournamentId = Number(id);
   const url = new URL(req.url);
   const permanent = url.searchParams.get("permanent") === "true";
+
+  if (!(await requireAdminSession())) return unauthorizedResponse();
 
   try {
     const tournament = await prisma.tournament.findUnique({
@@ -156,6 +159,8 @@ export async function PATCH(
 ) {
   const { id } = await params;
   const tournamentId = Number(id);
+
+  if (!(await requireAdminSession())) return unauthorizedResponse();
 
   try {
     const tournament = await prisma.tournament.findUnique({

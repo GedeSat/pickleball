@@ -70,6 +70,32 @@ export default function CreateTournamentPage() {
                 <option value="ONGOING">Ongoing (Sedang Berjalan)</option>
               </select>
             </div>
+
+            {/* Kode Akses Wasit */}
+            <div className="space-y-3 md:col-span-2 pt-2 border-t border-slate-100">
+              <div>
+                <label htmlFor="refereeCode" className="text-sm font-medium text-slate-700">Kode Akses Wasit</label>
+                <input
+                  type="text"
+                  id="refereeCode"
+                  name="refereeCode"
+                  placeholder="Contoh: IPF2026"
+                  className="w-full p-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                />
+                <p className="text-xs text-slate-500 mt-1">
+                  1 kode per turnamen — semua wasit memakai kode yang sama untuk login di /wasit. Kosongkan jika belum ingin mengaktifkan.
+                </p>
+              </div>
+              <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  name="isCodeActive"
+                  defaultChecked
+                  className="w-4 h-4 rounded border border-slate-300 text-primary focus:ring-primary accent-primary"
+                />
+                Aktifkan kode akses wasit
+              </label>
+            </div>
           </div>
 
           {/* Tingkat / Grade yang tersedia */}

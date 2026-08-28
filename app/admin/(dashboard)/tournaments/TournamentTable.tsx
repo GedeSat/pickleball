@@ -13,6 +13,8 @@ type Tournament = {
   startDate: Date | string;
   endDate: Date | string;
   status: string;
+  refereeCode: string | null;
+  isCodeActive: boolean;
 };
 
 const STATUS_OPTIONS = [
@@ -258,7 +260,22 @@ export default function TournamentTable({
             ) : (
               filtered.map((tournament) => (
                 <tr key={tournament.id} className="hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
-                  <td className="p-4 font-medium text-slate-900 dark:text-slate-100">{tournament.name}</td>
+                  <td className="p-4 font-medium text-slate-900 dark:text-slate-100">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {tournament.name}
+                      {tournament.refereeCode && (
+                        <span
+                          className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide ring-1 ${
+                            tournament.isCodeActive
+                              ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 ring-emerald-200 dark:ring-emerald-500/30"
+                              : "bg-slate-100 dark:bg-slate-700 text-slate-400 dark:text-slate-500 ring-slate-200 dark:ring-slate-600"
+                          }`}
+                        >
+                          Wasit {tournament.isCodeActive ? "● Aktif" : "○ Nonaktif"}
+                        </span>
+                      )}
+                    </div>
+                  </td>
                   <td className="p-4">
                     {tournament.category ? (
                       <span className="inline-block px-2.5 py-1 rounded-full text-xs font-medium bg-primary-50 dark:bg-primary-200/10 text-primary-700 dark:text-primary-300 whitespace-nowrap">

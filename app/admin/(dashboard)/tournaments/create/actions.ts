@@ -18,6 +18,8 @@ export async function createTournament(formData: FormData) {
   const registrationFee = formData.get('registrationFee') as string
   const maxParticipants = formData.get('maxParticipants') as string
   const status = formData.get('status') as TournamentStatus
+  const refereeCode = (formData.get('refereeCode') as string)?.trim() || null
+  const isCodeActive = formData.get('isCodeActive') === 'on'
 
   // --- PROSES UPLOAD GAMBAR ---
   const imageFile = formData.get('image') as File
@@ -60,6 +62,8 @@ export async function createTournament(formData: FormData) {
       maxParticipants: parseInt(maxParticipants) || 0,
       gradeOptions: selectedGrades.length > 0 ? JSON.stringify(selectedGrades) : null,
       status,
+      refereeCode,
+      isCodeActive,
     }
   })
 

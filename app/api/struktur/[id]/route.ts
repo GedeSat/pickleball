@@ -1,10 +1,13 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 
 export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!(await requireAdminSession())) return unauthorizedResponse();
+
   const { id } = await params;
   const body = await req.json();
 
@@ -33,6 +36,8 @@ export async function DELETE(
   _req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  if (!(await requireAdminSession())) return unauthorizedResponse();
+
   const { id } = await params;
 
   try {

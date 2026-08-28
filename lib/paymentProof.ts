@@ -4,6 +4,8 @@
 
 import { writeFile, mkdir } from 'fs/promises'
 import path from 'path'
+import crypto from 'crypto'
+import { detectImageFileType, imageFileExtension } from '@/lib/imageFile'
 
 /**
  * Validasi & simpan file bukti pembayaran ke public/uploads/payments/.
@@ -14,18 +16,21 @@ export async function savePaymentProofFile(file: File | null): Promise<string> {
   if (!file || file.size === 0) {
     throw new Error("Upload bukti pembayaran wajib diisi")
   }
-  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
-    throw new Error("Bukti pembayaran harus berupa gambar (JPG/PNG/WebP)")
-  }
   if (file.size > 5 * 1024 * 1024) {
     throw new Error("Ukuran bukti pembayaran maksimal 5MB")
   }
 
-  const ext = file.type === 'image/png' ? '.png' : file.type === 'image/webp' ? '.webp' : '.jpg'
-  const filename = `${Date.now()}-${Math.round(Math.random() * 1e9)}${ext}`
+  // Validasi isi file (magic bytes), bukan hanya MIME type dari klien
+  const buffer = Buffer.from(await file.arrayBuffer())
+  const imageType = detectImageFileType(buffer)
+  if (!imageType) {
+    throw new Error("Bukti pembayaran harus berupa gambar (JPG/PNG/WebP)")
+  }
+
+  const filename = `${crypto.randomUUID()}${imageFileExtension(imageType)}`
   const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'payments')
   await mkdir(uploadDir, { recursive: true })
-  await writeFile(path.join(uploadDir, filename), Buffer.from(await file.arrayBuffer()))
+  await writeFile(path.join(uploadDir, filename), buffer)
 
   return `/uploads/payments/${filename}`
 }

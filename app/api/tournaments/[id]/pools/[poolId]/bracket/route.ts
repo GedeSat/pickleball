@@ -7,6 +7,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 import { buildBracket } from "@/lib/bracketGenerator";
 import { buildTemplateBracket, fillBracketFromPools } from "@/lib/bracketTemplate";
 import { revalidatePath } from "next/cache";
@@ -59,6 +60,8 @@ export async function POST(
 ) {
   const { id, poolId } = await params;
   const tournamentId = Number(id);
+
+  if (!(await requireAdminSession())) return unauthorizedResponse();
 
   try {
     const body = await req.json().catch(() => ({}));

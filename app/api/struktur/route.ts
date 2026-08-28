@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 
 export async function GET() {
   const data = await prisma.orgStructure.findMany({
@@ -9,6 +10,8 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
+  if (!(await requireAdminSession())) return unauthorizedResponse();
+
   const body = await req.json();
 
   if (!body.name || !body.position) {

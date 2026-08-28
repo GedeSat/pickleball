@@ -1,6 +1,8 @@
 // /api/tournaments/[id]/brackets/matches/route.ts
 import { PrismaClient } from "@prisma/client";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { verifyRefereeAccess } from "@/lib/refereeAuth";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 
 const prisma = new PrismaClient();
 
@@ -10,6 +12,8 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   await params;
+
+  if (!(await requireAdminSession())) return unauthorizedResponse();
 
   try {
     const body = await req.json();
@@ -85,14 +89,26 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  await params;
+  const { id } = await params;
 
   try {
     const body = await req.json();
-    const { matchId, score1, score2, refereeName } = body;
+    const { matchId, score1, score2, refereeName, refereeCode } = body;
 
     if (matchId === undefined || score1 === undefined || score2 === undefined) {
       return errorResponse("matchId, score1, score2 wajib diisi ⚠️", 400, "BAD_REQUEST");
+    }
+
+    // Otorisasi:
+    // - wasit: kirim refereeCode → validasi akses kode wasit
+    // - admin: tanpa refereeCode → wajib sesi admin
+    if (refereeCode) {
+      const access = await verifyRefereeAccess(refereeCode, Number(id));
+      if (!access.ok) {
+        return errorResponse(access.message, access.status ?? 403, "REFEREE_UNAUTHORIZED");
+      }
+    } else if (!(await requireAdminSession())) {
+      return unauthorizedResponse();
     }
 
     const s1 = Number(score1);
@@ -105,6 +121,14 @@ export async function PUT(
 
     if (!match) {
       return errorResponse("Match tidak ditemukan 🔍", 404, "NOT_FOUND");
+    }
+
+    // Pastikan match milik turnamen yang diminta
+    const group = await prisma.tournamentGroup.findUnique({
+      where: { id: match.groupId },
+    });
+    if (!group || group.tournamentId !== Number(id)) {
+      return errorResponse("Match tidak ditemukan pada turnamen ini 🔍", 404, "NOT_FOUND");
     }
 
     // Tentukan pemenang

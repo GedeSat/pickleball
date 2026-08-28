@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { verifyRefereeAccess } from "@/lib/refereeAuth";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 
 // Fungsi untuk menentukan jumlah kelipatan 2 pembentuk bracket (2, 4, 8, 16...)
 function getNextPowerOf2(num: number) {
@@ -46,6 +48,8 @@ export async function POST(
 ) {
   const { id } = await params;
   const tournamentId = Number(id);
+
+  if (!(await requireAdminSession())) return unauthorizedResponse();
 
   try {
     const body = await req.json();
@@ -259,14 +263,31 @@ export async function PUT(
 
   try {
     const body = await req.json();
-    const { matchId, player1Name, player2Name, score1, score2, reset, refereeName } = body;
+    const { matchId, player1Name, player2Name, score1, score2, reset, refereeName, refereeCode } = body;
 
     if (!matchId) {
       return errorResponse("matchId wajib diisi ⚠️", 400, "BAD_REQUEST");
     }
 
+    // Otorisasi:
+    // - wasit: kirim refereeCode → validasi akses kode wasit
+    // - admin: tanpa refereeCode → wajib sesi admin
+    if (refereeCode) {
+      const access = await verifyRefereeAccess(refereeCode, Number(id));
+      if (!access.ok) {
+        return errorResponse(access.message, access.status ?? 403, "REFEREE_UNAUTHORIZED");
+      }
+    } else if (!(await requireAdminSession())) {
+      return unauthorizedResponse();
+    }
+
     const matchBefore = await prisma.knockoutMatch.findUnique({ where: { id: Number(matchId) } });
     if (!matchBefore) return errorResponse("Match tidak ditemukan 🔍", 404, "NOT_FOUND");
+
+    // Pastikan match milik turnamen yang diminta
+    if (matchBefore.tournamentId !== Number(id)) {
+      return errorResponse("Match tidak ditemukan pada turnamen ini 🔍", 404, "NOT_FOUND");
+    }
 
     // Jika admin hanya merubah nama manual di bracket
     if (player1Name !== undefined || player2Name !== undefined) {

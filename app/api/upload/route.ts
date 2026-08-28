@@ -1,11 +1,15 @@
-import { writeFile, mkdir } from "fs/promises"; // 🔥 Tambahkan mkdir di sini
+import { writeFile, mkdir } from "fs/promises";
 import path from "path";
+import crypto from "crypto";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
+import { detectImageFileType, imageFileExtension } from "@/lib/imageFile";
 
-const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp"];
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
 export async function POST(req: Request) {
+  if (!(await requireAdminSession())) return unauthorizedResponse();
+
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
@@ -14,33 +18,30 @@ export async function POST(req: Request) {
       return errorResponse("Tidak ada file yang diunggah ⚠️", 400, "BAD_REQUEST");
     }
 
-    if (!ALLOWED_TYPES.includes(file.type)) {
-      return errorResponse("Hanya file gambar JPG/PNG/WebP yang diizinkan", 400, "BAD_REQUEST");
-    }
-
     if (file.size > MAX_SIZE) {
       return errorResponse("Ukuran file maksimal 5MB", 400, "BAD_REQUEST");
     }
 
-    // 1. Ubah file menjadi format Buffer
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
+    // Validasi isi file (magic bytes), bukan hanya MIME type dari klien
+    const buffer = Buffer.from(await file.arrayBuffer());
+    const imageType = detectImageFileType(buffer);
+    if (!imageType) {
+      return errorResponse(
+        "File harus berupa gambar JPG/PNG/WebP yang valid",
+        400,
+        "BAD_REQUEST"
+      );
+    }
 
-    // 2. Buat nama file unik
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const filename = `${uniqueSuffix}-${file.name.replace(/\s+/g, "-").replace(/[^a-zA-Z0-9._-]/g, "")}`;
+    // Nama file acak; ekstensi ditentukan dari isi file, bukan nama asli klien
+    const filename = `${crypto.randomUUID()}${imageFileExtension(imageType)}`;
 
-    // 3. Tentukan lokasi penyimpanan
     const uploadDir = path.join(process.cwd(), "public", "uploads");
     const filepath = path.join(uploadDir, filename);
 
-    // 🔥 4. BARIS BARU: Cek & buat folder otomatis jika belum ada!
     await mkdir(uploadDir, { recursive: true });
-
-    // 5. Simpan file fisik ke dalam folder
     await writeFile(filepath, buffer);
 
-    // 6. Kembalikan URL gambar aslinya
     const imageUrl = `/uploads/${filename}`;
 
     return successResponse("Gambar berhasil diunggah 🖼️", { url: imageUrl });

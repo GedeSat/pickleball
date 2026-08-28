@@ -61,13 +61,15 @@ export const authOptions: NextAuthOptions = {
         })
 
         if (!user) {
-          throw new Error('User tidak ditemukan')
+          // Pesan generik untuk mencegah user enumeration;
+          // rate limit tetap menangani brute force.
+          throw new Error('Email atau password salah')
         }
 
         const isValid = await bcrypt.compare(credentials!.password, user.password)
 
         if (!isValid) {
-          throw new Error('Password salah')
+          throw new Error('Email atau password salah')
         }
 
         resetAttempts(ipKey)

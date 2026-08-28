@@ -1,10 +1,34 @@
-import React from "react";
+import { Suspense } from "react";
 import { prisma } from '@/lib/prisma';
 import { updatePlayer } from '../action';
 import Link from 'next/link';
 import { ALL_TOURNAMENT_GRADES, gradeToLabel } from '@/lib/tournamentGrades';
 
-export default async function EditPlayerPage({ params }: { params: Promise<{ id: string }> }) {
+export default function EditPlayerPage({ params }: { params: Promise<{ id: string }> }) {
+  return (
+    <Suspense fallback={<PlayerEditSkeleton />}>
+      <EditPlayerContent params={params} />
+    </Suspense>
+  );
+}
+
+function PlayerEditSkeleton() {
+  return (
+    <div className="max-w-3xl mx-auto mt-4 animate-pulse">
+      <div className="bg-white dark:bg-slate-800 p-8 md:p-10 rounded-[2rem] shadow-xl border border-slate-100 dark:border-slate-700 space-y-6">
+        <div className="h-8 w-64 rounded-lg bg-slate-200 dark:bg-slate-700" />
+        <div className="h-4 w-48 rounded bg-slate-100 dark:bg-slate-700" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="h-14 rounded-2xl bg-slate-100 dark:bg-slate-700" />
+          <div className="h-14 rounded-2xl bg-slate-100 dark:bg-slate-700" />
+          <div className="h-14 rounded-2xl bg-slate-100 dark:bg-slate-700 md:col-span-2" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+async function EditPlayerContent({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
   const playerId = parseInt(resolvedParams.id);
 

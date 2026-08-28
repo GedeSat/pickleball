@@ -7,6 +7,8 @@
 
 import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { verifyRefereeAccess } from "@/lib/refereeAuth";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 import {
   generatePoolMatches,
   recalculatePoolStandings,
@@ -59,6 +61,8 @@ export async function POST(
   const { poolId } = await params;
   const pid = Number(poolId);
 
+  if (!(await requireAdminSession())) return unauthorizedResponse();
+
   try {
     // Cek pool ada
     const pool = await prisma.pool.findUnique({ where: { id: pid } });
@@ -101,15 +105,28 @@ export async function PUT(
   req: Request,
   { params }: { params: Promise<{ id: string; poolId: string }> }
 ) {
-  const { poolId } = await params;
+  const { id, poolId } = await params;
+  const tid = Number(id);
   const pid = Number(poolId);
 
   try {
     const body = await req.json();
-    const { matchId, score1, score2, reset } = body;
+    const { matchId, score1, score2, reset, refereeCode } = body;
 
     if (!matchId) {
       return errorResponse("matchId wajib diisi ⚠️", 400, "BAD_REQUEST");
+    }
+
+    // Otorisasi:
+    // - wasit: kirim refereeCode → validasi akses kode wasit
+    // - admin: tanpa refereeCode → wajib sesi admin
+    if (refereeCode) {
+      const access = await verifyRefereeAccess(refereeCode, tid);
+      if (!access.ok) {
+        return errorResponse(access.message, access.status ?? 403, "REFEREE_UNAUTHORIZED");
+      }
+    } else if (!(await requireAdminSession())) {
+      return unauthorizedResponse();
     }
 
     const match = await prisma.poolMatch.findUnique({
@@ -118,6 +135,12 @@ export async function PUT(
 
     if (!match || match.poolId !== pid) {
       return errorResponse("Match tidak ditemukan dalam pool ini 🔍", 404, "NOT_FOUND");
+    }
+
+    // Pastikan pool milik turnamen yang diminta
+    const poolCtx = await prisma.pool.findUnique({ where: { id: pid } });
+    if (!poolCtx || poolCtx.tournamentId !== tid) {
+      return errorResponse("Pool tidak ditemukan pada turnamen ini 🔍", 404, "NOT_FOUND");
     }
 
     // --- Reset skor ---

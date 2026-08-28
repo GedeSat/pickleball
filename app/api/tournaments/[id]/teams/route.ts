@@ -9,6 +9,7 @@
 import { Gender, MatchType } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { successResponse, errorResponse } from "@/lib/apiResponse";
+import { requireAdminSession, unauthorizedResponse } from "@/lib/requireAdmin";
 import {
   buildCategoryInfo,
   validateGenderForMatchType,
@@ -69,6 +70,8 @@ export async function POST(
 ) {
   const { id } = await params;
   const tournamentId = Number(id);
+
+  if (!(await requireAdminSession())) return unauthorizedResponse();
 
   try {
     const body = await req.json();

@@ -1,7 +1,10 @@
 import { successResponse, errorResponse } from '@/lib/apiResponse'
+import { requireAdminSession, unauthorizedResponse } from '@/lib/requireAdmin'
 import { updateMatchStatus } from '@/lib/matchManager'
 
 export async function PUT(request: Request) {
+  if (!(await requireAdminSession())) return unauthorizedResponse()
+
   try {
     const body = await request.json()
     const { type, matchId, status } = body
